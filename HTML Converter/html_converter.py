@@ -261,6 +261,12 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Footnotes Links
         for element in soup.findAll('a', class_='_idFootnoteLink _idGenColorInherit'):
             element['class'] = 'footnote-link'
+            
+             #adjust href so anchor tags work on website
+            holder = str(element['href'])
+            seperated = holder.split("#") 
+            holder = "#" + seperated[1]
+            element['href'] = holder
 
         for element in soup.findAll('span', class_='Note-reference'):
             element.unwrap()
@@ -284,6 +290,12 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         for element in soup.findAll('a', class_='_idFootnoteAnchor _idGenColorInherit'):
             del element['class']
+
+            #adjust href so anchor tags work on website
+            holder = str(element['href'])
+            seperated = holder.split("#") 
+            holder = "#" + seperated[1]
+            element['href'] = holder
 
         unwrap_element(soup, 'span', 'Footnote-Reference')
         unwrap_element(soup, 'span', 'Footnote-Reference-no-super')
