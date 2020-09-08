@@ -197,7 +197,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_span(['superscript-letters', 'superscript'], None, 'superscript')
 
         # Underline
-        clean_span(['underlined'], None, 'underline')
+        clean_span(['underlined','ital-underline'], None, 'underline')
 
         # Underlined Superscripts
         clean_span(['underlined-superscript'], None, 'underline superscript')
@@ -211,13 +211,13 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                 element['class'] = 'small-caps'
 
         # Italics
-        clean_span(['italic', 'Emphasis', 'table-italic', 'tables_table-heads-italic','tabular-figures','TNR-ital','scriptures'], None, 'italics')
+        clean_span(['italic', 'Emphasis', 'table-italic', 'tables_table-heads-italic','tabular-figures','TNR-ital','scriptures','link-italic'], None, 'italics')
 
         # Bold
         clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold', 'semibold', 'table-bold'], None, 'bold')
 
         # Bold Italics
-        clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic'], None, 'bold italics')
+        clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital'], None, 'bold italics')
 
         # Bold Underline
         clean_span(['bold-underline'], None, 'bold underline')
@@ -463,7 +463,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Interview Transcriptions
         clean_paragraphs(['interview1'], None, 'interview-first')
-        clean_paragraphs(['interview2'], None, 'interview-additional')
+        clean_paragraphs(['interview2','interview-subsequent'], None, 'interview-additional')
 
         # Dingbats
         clean_paragraphs(['dingbat-line'], None, 'dingbat')
