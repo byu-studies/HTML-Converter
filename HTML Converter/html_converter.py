@@ -83,9 +83,12 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['•title-one-line', '•Book-review-title', '•brief-notice-title', '•poetry-title',
                           '•title-one-line-w-subtitle', '•title-two-line', 'bn-title', 'notice-title'], 'h1', None)
 
+        # remove header <a> tag
+        for element in soup.findAll('a', id='_idTextAnchor000'):
+            element.replaceWithChildren()
+
         # make standardize line breaks
         for header in soup.findAll('h1'):
-
             string = str(header)
 
             # standardize line breaks
