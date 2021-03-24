@@ -188,61 +188,66 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Block Quotes with Space after paragraph
         clean_paragraphs(['•quote-end', '•quote-end--5', '•block-quote-end'], None, 'block-quote end')
 
-        # Block Quotes with Indent
-        # ==> p.block-quote.block-quote-indent
-        clean_paragraphs(['•quote-indent', '•quote-5-5-indent', '•quote-begin-indent'], None,
-                         'block-quote block-quote-indent')
+        # # Block Quotes with Indent
+        # # ==> p.block-quote.block-quote-indent
+        # clean_paragraphs(['•quote-indent', '•quote-5-5-indent', '•quote-begin-indent'], None,
+        #                  'block-quote block-quote-indent')
+        #
+        # # Block Quote with Indent and Space above paragraph
+        # clean_paragraphs(['•quote-begin-indent'], None,
+        #                  'block-quote block-quote-indent begin')
 
-        # Block Quote with Indent and Space above paragraph
-        clean_paragraphs(['•quote-begin-indent'], None,
-                         'block-quote block-quote-indent begin')
 
+        # Script to remove all <p> and its class to <blockquote>
+        for element in soup.findAll('p', class_='block-quote block-quote-indent'):
+            del element['class']
+            element.name = 'blockquote'
 
         # Script to remove all <span> and its class to <em>
         for element in soup.findAll('span'):
             del element['class']
             element.name = 'em'
 
-        # Superscript
-        clean_span(['superscript-letters', 'superscript'], None, 'superscript')
-
-        # Underline
-        clean_span(['underlined','ital-underline'], None, 'underline')
-
-        # Underlined Superscripts
-        clean_span(['underlined-superscript'], None, 'underline superscript')
-
-        # Small Caps
-        for element in soup.findAll('span', class_='all-small-caps'):
-            string = str(element.string)
-            if string is not None and string.isupper():
-                element.unwrap()
-            else:
-                element['class'] = 'small-caps'
-
-        # Italics
-        clean_span(['italic', 'Emphasis', 'table-italic', 'tables_table-heads-italic','tabular-figures','TNR-ital','scriptures','link-italic'], None, 'italics')
-
-        # Bold
-        clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold', 'semibold', 'table-bold'], None, 'bold')
-
-        # Bold Italics
-        clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital'], None, 'bold italics')
-
-        # Bold Underline
-        clean_span(['bold-underline'], None, 'bold underline')
-
-        # Bold Strikethrough
-        clean_span(['bold-strikethrough'], None, 'bold strikethrough')
-
-        # Hebrew
-        clean_span(['Hebrew-TNR', 'TNR-Hebrew', 'TNR'], None, 'hebrew')
-
-        # Foreign
-        clean_span(['vowel'], None, 'foreign')
-
-        # Subscript
-        clean_span(['subscript'], None, 'subscript')
+        # # Superscript
+        # clean_span(['superscript-letters', 'superscript'], None, 'superscript')
+        #
+        # # Underline
+        # clean_span(['underlined','ital-underline'], None, 'underline')
+        #
+        # # Underlined Superscripts
+        # clean_span(['underlined-superscript'], None, 'underline superscript')
+        #
+        # # Small Caps
+        # for element in soup.findAll('span', class_='all-small-caps'):
+        #     string = str(element.string)
+        #     if string is not None and string.isupper():
+        #         element.unwrap()
+        #     else:
+        #         element['class'] = 'small-caps'
+        #
+        # # Italics
+        # clean_span(['italic', 'Emphasis', 'table-italic', 'tables_table-heads-italic','tabular-figures','TNR-ital','scriptures','link-italic'], None, 'italics')
+        #
+        # # Bold
+        # clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold', 'semibold', 'table-bold'], None, 'bold')
+        #
+        # # Bold Italics
+        # clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital'], None, 'bold italics')
+        #
+        # # Bold Underline
+        # clean_span(['bold-underline'], None, 'bold underline')
+        #
+        # # Bold Strikethrough
+        # clean_span(['bold-strikethrough'], None, 'bold strikethrough')
+        #
+        # # Hebrew
+        # clean_span(['Hebrew-TNR', 'TNR-Hebrew', 'TNR'], None, 'hebrew')
+        #
+        # # Foreign
+        # clean_span(['vowel'], None, 'foreign')
+        #
+        # # Subscript
+        # clean_span(['subscript'], None, 'subscript')
 
         # Horizontal Line
         # ==> hr
