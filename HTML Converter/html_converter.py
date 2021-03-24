@@ -87,6 +87,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         for element in soup.findAll('a', id='_idTextAnchor000'):
             element.replaceWithChildren()
 
+
         # make standardize line breaks
         for header in soup.findAll('h1'):
             string = str(header)
@@ -195,6 +196,12 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Block Quote with Indent and Space above paragraph
         clean_paragraphs(['•quote-begin-indent'], None,
                          'block-quote block-quote-indent begin')
+
+
+        # Script to remove all <span> and its class to <em>
+        for element in soup.findAll('span'):
+            del element['class']
+            element.name = 'em'
 
         # Superscript
         clean_span(['superscript-letters', 'superscript'], None, 'superscript')
