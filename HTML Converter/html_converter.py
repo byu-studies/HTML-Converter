@@ -151,7 +151,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # 1-2 Hanging Indent
         # (first line indented once, all other lines indented twice)
-        clean_paragraphs(['•10-5-Hanging-Indent-Paragraph', '•10-5-Hanging-IndPar-Middle',
+        clean_paragraphs(['•10-5-Hanging-Indent-Paragraph', '•10-5-Hanging-IndPar-Middle','•10-5-Hanging-interior-para',
                           '•Hanging-Indent-Paragraph--small-', '•Hanging-IndPar-Middle', 'example-lines'], None,
                          'indent-1-2')
 
@@ -188,14 +188,14 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Block Quotes with Space after paragraph
         clean_paragraphs(['•quote-end', '•quote-end--5', '•block-quote-end'], None, 'block-quote end')
 
-        # # Block Quotes with Indent
-        # # ==> p.block-quote.block-quote-indent
-        # clean_paragraphs(['•quote-indent', '•quote-5-5-indent', '•quote-begin-indent'], None,
-        #                  'block-quote block-quote-indent')
-        #
-        # # Block Quote with Indent and Space above paragraph
-        # clean_paragraphs(['•quote-begin-indent'], None,
-        #                  'block-quote block-quote-indent begin')
+        # Block Quotes with Indent
+        # ==> p.block-quote.block-quote-indent
+        clean_paragraphs(['•quote-indent', '•quote-5-5-indent', '•quote-begin-indent'], None,
+                         'block-quote block-quote-indent')
+
+        # Block Quote with Indent and Space above paragraph
+        clean_paragraphs(['•quote-begin-indent'], None,
+                         'block-quote block-quote-indent begin')
 
 
         # Script to remove all <p> and its class to <blockquote>
@@ -207,6 +207,11 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         for element in soup.findAll('span'):
             del element['class']
             element.name = 'em'
+
+        # Script to remove all <em class="italics">
+        for element in soup.findAll('em', class_='italics'):
+            del element['class']
+
 
         # # Superscript
         # clean_span(['superscript-letters', 'superscript'], None, 'superscript')
