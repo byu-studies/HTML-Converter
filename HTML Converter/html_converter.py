@@ -253,6 +253,11 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             del element['class']
             element.name = 'strong'
 
+        # Script to remove all <span class="bold"> to <em>
+        for element in soup.findAll('span', class_='superscript'):
+            del element['class']
+            element.name = 'sup'
+
 
         # Horizontal Line
         # ==> hr
