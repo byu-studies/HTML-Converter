@@ -253,12 +253,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             del element['class']
             element.name = 'strong'
 
-        # Script to remove all <span class="bold"> to <em>
-        for element in soup.findAll('span', class_='superscript'):
-            del element['class']
-            element.name = 'sup'
-
-
         # Horizontal Line
         # ==> hr
         for element in soup.findAll('hr', class_='HorizontalRule-1'):
@@ -286,12 +280,12 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Footnotes Links
         for element in soup.findAll('a', class_='_idFootnoteLink _idGenColorInherit'):
             element['class'] = 'footnote-link'
-            
              #adjust href so anchor tags work on website
             holder = str(element['href'])
             seperated = holder.split("#") 
             holder = "#" + seperated[1]
             element['href'] = holder
+
 
         for element in soup.findAll('span', class_='Note-reference'):
             element.unwrap()
@@ -299,10 +293,12 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'Endnote-reference')
         unwrap_element(soup, 'span', 'Footnote-reference')
 
+        # Find the correct footnote id and replace with supscript native tag
         for element in soup.findAll('span'):
             if element.get('id') is not None and re.match(r'footnote-[0-9]{3}-backlink', element.get('id')):
                 element.contents[0]['id'] = element['id']
-                element.unwrap()
+                del element['id']
+                element.name = 'sup'
 
         # Footnotes
         for element in soup.findAll('div', class_='_idFootnotes'):
