@@ -182,16 +182,38 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['•quote-5-5-no-indent', '•quote-no-indent', '•quote-center', '•block-quote-center',
                           '•block-quote', '•block-quote-5-5', '•block-quote-end--5'], None, 'block-quote')
 
+        # Script to remove all <p class="block-quote"> to <blockquote>
+        for element in soup.findAll('p', class_='block-quote'):
+            del element['class']
+            element.name = 'blockquote'
+
+
         # Block Quotes with space above paragraph
         clean_paragraphs(['•quote-begin-no-indent', '•block-quote-begin'], None, 'block-quote begin')
 
+        # Script to remove all <p class="block-quote"> to <blockquote>
+        for element in soup.findAll('p', class_='block-quote begin'):
+            del element['class']
+            element.name = 'blockquote'
+
         # Block Quotes with Space after paragraph
         clean_paragraphs(['•quote-end', '•quote-end--5', '•block-quote-end'], None, 'block-quote end')
+
+        # Script to remove all <p class="block-quote"> to <blockquote>
+        for element in soup.findAll('p', class_='block-quote end'):
+            del element['class']
+            element.name = 'blockquote'
 
         # Block Quotes with Indent
         # ==> p.block-quote.block-quote-indent
         clean_paragraphs(['•quote-indent', '•quote-5-5-indent', '•quote-begin-indent'], None,
                          'block-quote block-quote-indent')
+
+        # Script to remove all <p class="block-quote block-quote-indent"> to <blockquote>
+        for element in soup.findAll('p', class_='block-quote block-quote-indent'):
+            del element['class']
+            element.name = 'blockquote'
+
 
         # Block Quote with Indent and Space above paragraph
         clean_paragraphs(['•quote-begin-indent'], None,
@@ -199,9 +221,17 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Superscript
         clean_span(['superscript-letters', 'superscript'], None, 'superscript')
+        # Script to remove all <span> to <sup>
+        for element in soup.findAll('span', class_='superscript'):
+            del element['class']
+            element.name = 'sup'
 
         # Underline
         clean_span(['underlined','ital-underline'], None, 'underline')
+        # Script to remove all <span> to <ins>
+        for element in soup.findAll('span', class_='underline'):
+            del element['class']
+            element.name = 'ins'
 
         # Underlined Superscripts
         clean_span(['underlined-superscript'], None, 'underline superscript')
@@ -217,8 +247,19 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Italics
         clean_span(['italic', 'Emphasis', 'table-italic', 'tables_table-heads-italic','tabular-figures','TNR-ital','scriptures','link-italic'], None, 'italics')
 
+        # Script to remove all <span class="italics"> to <em>
+        for element in soup.findAll('span', class_='italics'):
+            del element['class']
+            element.name = 'em'
+
         # Bold
         clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold', 'semibold', 'table-bold'], None, 'bold')
+
+        # Script to remove all <span class="bold"> to <em>
+        for element in soup.findAll('span', class_='bold'):
+            del element['class']
+            element.name = 'strong'
+
 
         # Bold Italics
         clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital'], None, 'bold italics')
@@ -237,21 +278,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Subscript
         clean_span(['subscript'], None, 'subscript')
-
-        # Script to remove all <p class="block-quote block-quote-indent"> to <blockquote>
-        for element in soup.findAll('p', class_='block-quote block-quote-indent'):
-            del element['class']
-            element.name = 'blockquote'
-
-        # Script to remove all <span class="italics"> to <em>
-        for element in soup.findAll('span', class_='italics'):
-            del element['class']
-            element.name = 'em'
-
-        # Script to remove all <span class="bold"> to <em>
-        for element in soup.findAll('span', class_='bold'):
-            del element['class']
-            element.name = 'strong'
 
         # Horizontal Line
         # ==> hr
