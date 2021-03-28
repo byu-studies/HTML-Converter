@@ -114,7 +114,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             new_subtitle = BeautifulSoup(string, features='html.parser')
             subtitle.replace_with(new_subtitle)
 
-        # Document Title
+    # Document Title
         # (for document transcriptions)
         clean_paragraphs(['•dc-title-of-document','•title'], None, 'document-title')
 
@@ -260,9 +260,17 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             del element['class']
             element.name = 'strong'
 
-
         # Bold Italics
         clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital'], None, 'bold italics')
+
+        for element in soup.findAll('span', class_='bold italics'):
+            string = str(element)
+            parse = BeautifulSoup(string, features="html.parser")
+            if parse is not None:
+                new_string = parse.span.wrap(parse.new_tag("strong"))
+                element.replace_with(new_string)
+
+
 
         # Bold Underline
         clean_span(['bold-underline'], None, 'bold underline')
@@ -288,7 +296,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         for element in soup.findAll('span', class_='link'):
             element.unwrap()
 
-        # Author Bio
+    # Author Bio
         # ==> p child of div.author-bio
         first_bioline = soup.find('p', class_='•bioline')  # grab the first p.•bioline tag
         if first_bioline is not None:  # make sure there was a p.•bioline
