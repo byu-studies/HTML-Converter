@@ -228,13 +228,24 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Underline
         clean_span(['underlined','ital-underline'], None, 'underline')
-        # Script to remove all <span> to <ins>
+        # Script to remove all <span class ="underline" > to <ins>
         for element in soup.findAll('span', class_='underline'):
             del element['class']
             element.name = 'ins'
 
         # Underlined Superscripts
         clean_span(['underlined-superscript'], None, 'underline superscript')
+        # Wrap a strong tag around <span class_='underline superscript'/>
+        for element in soup.findAll('span', class_='underline superscript'):
+            string = str(element)
+            parse = BeautifulSoup(string, features="html.parser")
+            if parse is not None:
+                new_string = parse.span.wrap(parse.new_tag('ins'))
+                element.replace_with(new_string)
+        # remove <span class_='underline superscript/> and convert to <sup>
+        for element in soup.findAll('span', class_='underline superscript'):
+            del element['class']
+            element.name = 'sup'
 
         # Small Caps
         for element in soup.findAll('span', class_='all-small-caps'):
@@ -263,20 +274,49 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Bold Italics
         clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital'], None, 'bold italics')
 
+        # Wrap a strong tag around <span class_='bold italics'/>
         for element in soup.findAll('span', class_='bold italics'):
             string = str(element)
             parse = BeautifulSoup(string, features="html.parser")
             if parse is not None:
                 new_string = parse.span.wrap(parse.new_tag("strong"))
                 element.replace_with(new_string)
-
-
+        # remove <span class_='bold italics'/> and convert to <em>
+        for element in soup.findAll('span', class_='bold italics'):
+            del element['class']
+            element.name = 'em'
 
         # Bold Underline
         clean_span(['bold-underline'], None, 'bold underline')
 
+        # Wrap a strong tag around <span class_='bold underline'/>
+        for element in soup.findAll('span', class_='bold underline'):
+            string = str(element)
+            parse = BeautifulSoup(string, features="html.parser")
+            if parse is not None:
+                new_string = parse.span.wrap(parse.new_tag('strong'))
+                element.replace_with(new_string)
+        # remove <span class_='bold underline'/> and convert to <ins>
+        for element in soup.findAll('span', class_='bold underline'):
+            del element['class']
+            element.name = 'ins'
+
+
         # Bold Strikethrough
         clean_span(['bold-strikethrough'], None, 'bold strikethrough')
+        # Wrap a strong tag around <span class_='bold strikethrough'/>
+        for element in soup.findAll('span', class_='bold strikethrough'):
+            string = str(element)
+            parse = BeautifulSoup(string, features="html.parser")
+            if parse is not None:
+                new_string = parse.span.wrap(parse.new_tag('strong'))
+                element.replace_with(new_string)
+
+        # remove <span class_='bold strikethrough'/> and convert to <del>
+        for element in soup.findAll('span', class_='bold strikethrough'):
+            del element['class']
+            element.name = 'del'
+
 
         # Hebrew
         clean_span(['Hebrew-TNR', 'TNR-Hebrew', 'TNR'], None, 'hebrew')
@@ -286,6 +326,11 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Subscript
         clean_span(['subscript'], None, 'subscript')
+
+        # Script to remove all <span class="subscript"> to <sup>
+        for element in soup.findAll('span', class_='subscript'):
+            del element['class']
+            element.name = 'sup'
 
         # Horizontal Line
         # ==> hr
