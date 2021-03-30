@@ -242,10 +242,11 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             if parse is not None:
                 new_string = parse.span.wrap(parse.new_tag('ins'))
                 element.replace_with(new_string)
-        # remove <span class_='underline superscript/> and convert to <sup>
-        for element in soup.findAll('span', class_='underline superscript'):
-            del element['class']
-            element.name = 'sup'
+            # remove <span class_='underline superscript/> and convert to <sup>
+            tag = soup.find('span', class_='underline superscript')
+            del tag['class']
+            tag.name = 'sup'
+
 
         # Small Caps
         for element in soup.findAll('span', class_='all-small-caps'):
@@ -281,10 +282,26 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             if parse is not None:
                 new_string = parse.span.wrap(parse.new_tag("strong"))
                 element.replace_with(new_string)
-        # remove <span class_='bold italics'/> and convert to <em>
-        for element in soup.findAll('span', class_='bold italics'):
-            del element['class']
-            element.name = 'em'
+            tag = soup.find('span', class_='bold italics')
+            del tag['class']
+            tag.name = 'em'
+
+        clean_paragraphs(['bold italics'], None, None)  # remove all .•bioline class tags
+
+    # # remove <span class_='bold italics'/> and convert to <em>
+        # for element in soup.findAll('span', class_='bold italics'):
+        #     del element['class']
+        #     element.name = 'em'
+
+        # Footnotes Links
+        for element in soup.findAll('a', class_='_idFootnoteLink _idGenColorInherit'):
+            element['class'] = 'footnote-link'
+            #adjust href so anchor tags work on website
+            holder = str(element['href'])
+            seperated = holder.split("#")
+            holder = "#" + seperated[1]
+            element['href'] = holder
+
 
         # Bold Underline
         clean_span(['bold-underline'], None, 'bold underline')
@@ -296,11 +313,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             if parse is not None:
                 new_string = parse.span.wrap(parse.new_tag('strong'))
                 element.replace_with(new_string)
-        # remove <span class_='bold underline'/> and convert to <ins>
-        for element in soup.findAll('span', class_='bold underline'):
-            del element['class']
-            element.name = 'ins'
-
+            tag = soup.find('span', class_='bold underline')
+            del tag['class']
+            tag.name = 'ins'
 
         # Bold Strikethrough
         clean_span(['bold-strikethrough'], None, 'bold strikethrough')
@@ -311,12 +326,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             if parse is not None:
                 new_string = parse.span.wrap(parse.new_tag('strong'))
                 element.replace_with(new_string)
-
-        # remove <span class_='bold strikethrough'/> and convert to <del>
-        for element in soup.findAll('span', class_='bold strikethrough'):
-            del element['class']
-            element.name = 'del'
-
+            tag = soup.find('span', class_='bold strikethrough')
+            del tag['class']
+            tag.name = 'del'
 
         # Hebrew
         clean_span(['Hebrew-TNR', 'TNR-Hebrew', 'TNR'], None, 'hebrew')
