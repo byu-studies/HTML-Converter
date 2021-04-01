@@ -273,7 +273,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element.name = 'strong'
 
         # Bold Italics
-        clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital'], None, 'bold italics')
+        clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital','table-bold-ital'], None, 'bold italics')
 
         # Wrap a strong tag around <span class_='bold italics'/>
         for element in soup.findAll('span', class_='bold italics'):
@@ -524,7 +524,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         for element in soup.findAll('col'):
             if element.attr is None:
                 element.decompose()
-        delete_class(soup, 'p', 'timeline-table')
 
         # Colgroup
         for element in soup.findAll('colgroup'):
@@ -578,6 +577,10 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Dingbats
         clean_paragraphs(['dingbat-line'], None, 'dingbat')
 
+        for element in soup.findAll('p', class_='bold'):
+            element.unwrap()
+
+
         # Delete Unnecessary Tags
         unwrap_element(soup, 'span', '_idGenDropcap-1')
         unwrap_element(soup, 'span', '_idGenCharOverride-1')
@@ -597,7 +600,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'featurestext')
         unwrap_element(soup, 'span', 'hollow')
         unwrap_element(soup, 'span', 'Zapf')
-        
+
 
         delete_element(soup, 'p', '•Side-vertical-title')
         delete_element(soup, 'p', '•Book-Review-Sidebar')
