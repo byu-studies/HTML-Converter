@@ -577,8 +577,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Dingbats
         clean_paragraphs(['dingbat-line'], None, 'dingbat')
 
+        # This tag is supposed to be <p class="table-text"> but being mis-recognized
         for element in soup.findAll('p', class_='bold'):
-            element.unwrap()
+            element['class'] = 'table-text'
 
 
         # Delete Unnecessary Tags
