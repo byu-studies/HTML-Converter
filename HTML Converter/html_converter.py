@@ -581,6 +581,21 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Dingbats
         clean_paragraphs(['dingbat-line'], None, 'dingbat')
 
+        # Remove <strong> tag if a children of <h1> <h2> <h3> or <h4>
+        for element in soup.findAll('h1'):
+            for tag in element('strong'):
+                tag.decompose()
+        for element in soup.findAll('h2'):
+            for tag in element('strong'):
+                tag.decompose()
+        for element in soup.findAll('h3'):
+            for tag in element('strong'):
+                tag.decompose()
+        for element in soup.findAll('h4'):
+            for tag in element('strong'):
+                tag.decompose()
+
+
         # Delete Unnecessary Tags
         unwrap_element(soup, 'span', '_idGenDropcap-1')
         unwrap_element(soup, 'span', '_idGenCharOverride-1')
