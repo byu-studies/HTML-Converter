@@ -273,7 +273,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element.name = 'strong'
 
         # Bold Italics
-        clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital','table-bold-ital'], None, 'bold italics')
+        clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital','table-bold-ital', 'table-bold-italic'], None, 'bold italics')
 
         # Wrap a strong tag around <span class_='bold italics'/>
         for element in soup.findAll('span', class_='bold italics'):
@@ -447,6 +447,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Bibliography Entries
         clean_paragraphs(['bibliography'], None, 'bibliography-entry')
+        clean_paragraphs(['tables_table-heads-italic'], None, 'italics')
 
         # Images
         for element in soup.findAll('div', class_=['graphic-frame', 'graphic']):
@@ -517,6 +518,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                     if div.get('class') == 'author-bio':
                         div.insert_before(author_abstract)
 
+        for element in soup.findAll('div', class_='_idGenObjectStyleOverride-5'):
+            element['class']= '_idGenObjectStyleOverride-1'
+
         # Tables
         for element in soup.findAll(['table', 'td', 'tr'], class_=['shaded-table', 'Basic-Table', 'No-Table-Style', 'blank']):
             del element['class']
@@ -554,7 +558,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         #     del element['class']
 
         # Table Text
-        clean_paragraphs(['table-text', '•table-text','tables_table-text'], None, 'table-text')
+        clean_paragraphs(['table-text', '•table-text','tables_table-text','bold'], None, 'table-text')
 
         # Book Notices
         delete_class(soup, 'p', 'pub-info')
@@ -577,11 +581,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Dingbats
         clean_paragraphs(['dingbat-line'], None, 'dingbat')
 
-        # This tag is supposed to be <p class="table-text"> but being mis-recognized
-        for element in soup.findAll('p', class_='bold'):
-            element['class'] = 'table-text'
-
-
         # Delete Unnecessary Tags
         unwrap_element(soup, 'span', '_idGenDropcap-1')
         unwrap_element(soup, 'span', '_idGenCharOverride-1')
@@ -591,6 +590,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'div', 'Basic-Text-Frame')
         unwrap_element(soup, 'span', 'Annotation-reference')
         unwrap_element(soup, 'div', '_idGenObjectLayout-1')
+        unwrap_element(soup, 'div', '_idGenObjectLayout-3')
+        unwrap_element(soup, 'div', '_idGenObjectLayout-4')
+        unwrap_element(soup, 'div', '_idGenObjectLayout-5')
         unwrap_element(soup, 'div', '_idGenObjectAttribute-14')
         unwrap_element(soup, 'div', '_idGenObjectAttribute-18')
         unwrap_element(soup, 'span', 'reference-text')
@@ -644,7 +646,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                           'publication-lines', 'right', 'interview-first', 'interview-additional']
 
         # vertical spacing classes
-        known_classes += ['begin', 'end', 'dingbat', 'poem-text']
+        known_classes += ['begin', 'end', 'dingbat', 'poem-text','arrow']
 
         # footnote/appendix classes
         known_classes += ['footnote-link', 'footnote-body', 'all-footnotes', 'bibliography-entry', 'appendix-title']
