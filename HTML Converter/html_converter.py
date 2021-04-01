@@ -108,7 +108,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Subtitles
         # ==> p.subtitle
-        clean_paragraphs(['•subtitle-index-volume-', '•subtitle-index-volume-','•subtitle'], None, 'subtitle')
+        clean_paragraphs(['•subtitle-index-volume-', '•subtitle-index-volume-','•subtitle', 'advertisement-heading_new-title'], None, 'subtitle')
         for subtitle in soup.findAll('p', class_='subtitle'):
             string = remove_line_breaks(str(subtitle))
             new_subtitle = BeautifulSoup(string, features='html.parser')
@@ -120,7 +120,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Author
         # ==> p.author
-        clean_paragraphs(['•author-w-title', '•book-reviewer', '•author-w-two-line-title',
+        clean_paragraphs(['advertisement-heading_new-author','•author-w-title', '•book-reviewer', '•author-w-two-line-title',
                           '•author-w-title---sub ParaOverride-1', '•author-w-title---sub','•author'], None, 'author')
 
         # Author for Book Notices
@@ -129,7 +129,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Publication Information
         # ==> p.publication-info
-        clean_paragraphs(['•Book-review-title-2nd-line'], None, 'publication-info')
+        clean_paragraphs(['•Book-review-title-2nd-line', 'advertisement-heading_pub-info'], None, 'publication-info')
 
         # Level 1 Headers
         # ==> h2
@@ -285,13 +285,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             tag = soup.find('span', class_='bold italics')
             del tag['class']
             tag.name = 'em'
-
-        clean_paragraphs(['bold italics'], None, None)  # remove all .•bioline class tags
-
-    # # remove <span class_='bold italics'/> and convert to <em>
-        # for element in soup.findAll('span', class_='bold italics'):
-        #     del element['class']
-        #     element.name = 'em'
+        clean_paragraphs(['bold italics'], None, None)  # remove all bold italics class tags
 
         # Footnotes Links
         for element in soup.findAll('a', class_='_idFootnoteLink _idGenColorInherit'):
@@ -316,8 +310,10 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             tag = soup.find('span', class_='bold underline')
             del tag['class']
             tag.name = 'ins'
+        clean_paragraphs(['bold underline'], None, None)
 
-        # Bold Strikethrough
+
+    # Bold Strikethrough
         clean_span(['bold-strikethrough'], None, 'bold strikethrough')
         # Wrap a strong tag around <span class_='bold strikethrough'/>
         for element in soup.findAll('span', class_='bold strikethrough'):
@@ -329,8 +325,10 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             tag = soup.find('span', class_='bold strikethrough')
             del tag['class']
             tag.name = 'del'
+        clean_paragraphs(['bold strikethrough'], None, None)
 
-        # Hebrew
+
+    # Hebrew
         clean_span(['Hebrew-TNR', 'TNR-Hebrew', 'TNR'], None, 'hebrew')
 
         # Foreign
@@ -355,7 +353,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
     # Author Bio
         # ==> p child of div.author-bio
-        first_bioline = soup.find('p', class_='•bioline')  # grab the first p.•bioline tag
+        first_bioline = soup.find('p', class_=['•bioline', 'advertisement-heading_pub-info'])  # grab the first p.•bioline tag
         if first_bioline is not None:  # make sure there was a p.•bioline
             author_bio = soup.new_tag('div')  # create a new div
             author_bio['class'] = 'author-bio'  # give the div the class .author-bio
@@ -582,6 +580,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Delete Unnecessary Tags
         unwrap_element(soup, 'span', '_idGenDropcap-1')
+        unwrap_element(soup, 'span', '_idGenCharOverride-1')
         unwrap_element(soup, 'div', '_idGenObjectStyleOverride-1')
         unwrap_element(soup, 'div', '_idGenObjectStyleOverride-2')
         unwrap_element(soup, 'div', '_idGenObjectStyleOverride-3')
