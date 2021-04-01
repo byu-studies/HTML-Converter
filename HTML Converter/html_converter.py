@@ -605,8 +605,10 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'Zapf')
 
 
+
         delete_element(soup, 'p', '•Side-vertical-title')
         delete_element(soup, 'p', '•Book-Review-Sidebar')
+        delete_element(soup, 'div', 'arrow')
         delete_element(soup, 'span', 'Endnote-Reference-no-super')
 
         remove_class(soup, 'span', 'CharOverride-1')
@@ -646,7 +648,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                           'publication-lines', 'right', 'interview-first', 'interview-additional']
 
         # vertical spacing classes
-        known_classes += ['begin', 'end', 'dingbat', 'poem-text','arrow']
+        known_classes += ['begin', 'end', 'dingbat', 'poem-text']
 
         # footnote/appendix classes
         known_classes += ['footnote-link', 'footnote-body', 'all-footnotes', 'bibliography-entry', 'appendix-title']
