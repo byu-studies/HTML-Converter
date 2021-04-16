@@ -581,6 +581,11 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Dingbats
         clean_paragraphs(['dingbat-line'], None, 'dingbat')
 
+
+        # Add on styling for dingbat
+        for element in soup.findAll('p', class_="dingbat"):
+            element['style'] = 'text-align: center;'
+
         # Remove <strong> tag if a children of <h1> <h2> <h3> or <h4>
         for element in soup.findAll('h1'):
             for tag in element('strong'):
