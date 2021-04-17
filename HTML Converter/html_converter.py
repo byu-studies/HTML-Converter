@@ -624,8 +624,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'hollow')
         unwrap_element(soup, 'span', 'Zapf')
 
-
-
         delete_element(soup, 'p', '•Side-vertical-title')
         delete_element(soup, 'p', '•Book-Review-Sidebar')
         delete_element(soup, 'div', 'arrow')
@@ -643,7 +641,10 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'CharOverride-10')
         unwrap_element(soup, 'span', 'CharOverride-11')
 
-        # Remove Unnecessary Container IDs and Generic Object Attributes
+        for element in soup.findAll('span', class_=""):
+            element.unwrap();
+
+    # Remove Unnecessary Container IDs and Generic Object Attributes
         for element in soup.findAll('div'):
             if element.get('id') is not None and re.match(r'_idContainer[0-9]{3}', element.get('id')):
                 del element['id']
@@ -709,7 +710,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         else:
             with open(output_filename_partially_clean, 'w', encoding='utf-8') as outfile:
                 outfile.write(str(soup))
-
 
 def clean_batch(raw_files_path):
 
