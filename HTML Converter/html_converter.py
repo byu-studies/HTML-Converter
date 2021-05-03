@@ -1,7 +1,7 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 import re
 import os
-
+import itertools
 import tkinter
 from tkinter.filedialog import askdirectory
 
@@ -140,14 +140,16 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Default Paragraphs
         clean_paragraphs(['Normal', '•1st-paragrph', 'Normal-no-indent', '•brief-notices-no-indent',
-                          'body-text-no-indent', '•brief-notices-text','ParaOverride-7','ParaOverride-36','ParaOverride-37','ParaOverride-16','ParaOverride-58','ParaOverride-29','ParaOverride-4','ParaOverride-39','ParaOverride-22','ParaOverride-41','ParaOverride-9','ParaOverride-30','ParaOverride-3','ParaOverride-35','ParaOverride-40','comparisons'], 'p', None)
+                          'body-text-no-indent', '•brief-notices-text','comparisons'], 'p', None)
 
         # 1-0 First Line Indent
         clean_paragraphs(['•brief-notices-indent', 'inline-subhead'], None, 'indent-1-0')
 
-        # 1-2 Hanging Indent
+        #1-2 Hanging Indent 
         # (first line indented once, all other lines indented twice)
-        clean_paragraphs(['•10-5-Hanging-Indent-Paragraph', '•10-5-Hanging-IndPar-Middle',
+        clean_paragraphs(['•10-5-Hanging-Indent-Paragraph'], None,'indent-1-2 begin')
+
+        clean_paragraphs(['•10-5-Hanging-IndPar-Middle', '•10-5-Hanging-interior-para',
                           '•Hanging-Indent-Paragraph--small-', '•Hanging-IndPar-Middle', 'example-lines'], None,
                          'indent-1-2')
 
@@ -547,6 +549,20 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # create a set of classes that we do not approve of
         unknown_classes = set()
+
+        #Script to make all indent class in to an ordered list
+        element = soup.findAll('p',class_='indent-1-2 begin')
+        for el in element:
+            siblings = [sibling for sibling in el.next_siblings if type(sibling)!= NavigableString]
+            # list of all next_siblings class
+            li = [s['class']for s in siblings if 'class'in s.attrs]
+            # print(li[:3])
+            els = [i for i in itertools.takewhile(
+                lambda x: 'class'in x.attrs and 'indent-1-2' in x['class'], siblings)]
+            ol = soup.new_tag('ol')
+            el.wrap(ol)
+            for child in els:
+                ol.append(child)
 
         # loop through all tags to check that we approve all CSS classes in the file
         for element in soup.findAll(True):
