@@ -1,9 +1,9 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 import re
 import os
-
 import tkinter
 from tkinter.filedialog import askdirectory
+import itertools
 
 
 def delete_element(my_soup, my_tag_name, my_class):
@@ -133,7 +133,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Level 1 Headers
         # ==> h2
-        clean_paragraphs(['•subhead--0-', 'Heading-1-Text','nonheading'], 'h2', None)
+        clean_paragraphs(['•subhead--0-', 'Heading-1-Text','nonheading'], 'h2' , None)
 
         # Level 2 Headers
         # ==> h3
@@ -143,15 +143,18 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['•subhead--2-','volumes','volume-hanging','subhead2'], 'h4', None)
 
         # Default Paragraphs
-        clean_paragraphs(['Normal', '•1st-paragrph', 'Normal-no-indent', '•brief-notices-no-indent',
-                          'body-text-no-indent', '•brief-notices-text','ParaOverride-7','ParaOverride-36','ParaOverride-37','ParaOverride-16','ParaOverride-58','ParaOverride-29','ParaOverride-4','ParaOverride-39','ParaOverride-22','ParaOverride-41','ParaOverride-9','ParaOverride-30','ParaOverride-3','ParaOverride-35','ParaOverride-40','comparisons'], 'p', None)
+        clean_paragraphs(['Normal', '•1st-paragrph', 'Normal-no-indent', '•brief-notices-no-indent','body-text-no-indent',
+        '•brief-notices-text','comparisons'], 'p', None)
 
         # 1-0 First Line Indent
         clean_paragraphs(['•brief-notices-indent', 'inline-subhead'], None, 'indent-1-0')
 
-        # 1-2 Hanging Indent
+        #1-2 Hanging Indent Begin
         # (first line indented once, all other lines indented twice)
-        clean_paragraphs(['•10-5-Hanging-Indent-Paragraph', '•10-5-Hanging-IndPar-Middle','•10-5-Hanging-interior-para',
+        clean_paragraphs(['•10-5-Hanging-Indent-Paragraph'], None,'indent-1-2 begin')
+
+        # 1-2 Hanging Indent
+        clean_paragraphs(['•10-5-Hanging-IndPar-Middle','•10-5-Hanging-interior-para',
                           '•Hanging-Indent-Paragraph--small-', '•Hanging-IndPar-Middle', 'example-lines'], None,
                          'indent-1-2')
 
@@ -173,6 +176,20 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # 3-3 Paragraph Indent
         clean_paragraphs(['sub-paragraph'], None, 'indent-3-3')
+
+        #Script to make all indent-1-2 class in to an ordered list
+        element = soup.findAll('p',class_='indent-1-2 begin')
+        for el in element:
+            siblings = [sibling for sibling in el.next_siblings if type(sibling)!= NavigableString]
+            # list of all next_siblings class
+            li = [s['class']for s in siblings if 'class'in s.attrs]
+            # print(li[:3])
+            els = [i for i in itertools.takewhile(
+                lambda x: 'class'in x.attrs and 'indent-1-2' in x['class'], siblings)]
+            ol = soup.new_tag('ol')
+            el.wrap(ol)
+            for child in els:
+                ol.append(child)
 
         # Publication Lines
         # (first line indented once, second line indented past half the page width)
@@ -589,16 +606,16 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Remove <strong> tag if a children of <h1> <h2> <h3> or <h4>
         for element in soup.findAll('h1'):
             for tag in element('strong'):
-                tag.decompose()
+                tag.unwrap()
         for element in soup.findAll('h2'):
             for tag in element('strong'):
-                tag.decompose()
+                tag.unwrap()
         for element in soup.findAll('h3'):
             for tag in element('strong'):
-                tag.decompose()
+                tag.unwrap()
         for element in soup.findAll('h4'):
             for tag in element('strong'):
-                tag.decompose()
+                tag.unwap()
 
 
         # Delete Unnecessary Tags
