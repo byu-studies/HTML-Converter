@@ -1,0 +1,411 @@
+body, div, dl, dt, dd, h1, h2, h3, h4, h5, h6, p, pre, code, blockquote {
+	margin:0;
+	padding:0;
+	border-width:0;
+}
+body {
+	-epub-hyphens:auto;
+}
+a._idGenColorInherit {
+	color:inherit;
+}
+p.Normal {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:11px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.209;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:0;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:15px;
+	text-transform:none;
+	widows:2;
+}
+p.Normal-no-indent {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:11px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.209;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:0;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:0;
+	text-transform:none;
+	widows:2;
+}
+p.•10-5-Hanging-IndPar-End {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:11px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.209;
+	margin-bottom:8px;
+	margin-left:24px;
+	margin-right:0;
+	margin-top:0;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:-9px;
+	text-transform:none;
+	widows:2;
+}
+p.•10-5-Hanging-IndPar-Middle {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:11px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.209;
+	margin-bottom:3px;
+	margin-left:24px;
+	margin-right:0;
+	margin-top:0;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:-9px;
+	text-transform:none;
+	widows:2;
+}
+p.•10-5-Hanging-Indent-Paragraph {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:11px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.209;
+	margin-bottom:3px;
+	margin-left:24px;
+	margin-right:0;
+	margin-top:5px;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:-9px;
+	text-transform:none;
+	widows:2;
+}
+p.•1st-paragrph {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:11px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.209;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:0;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:always;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:0;
+	text-transform:none;
+	widows:2;
+}
+p.•author-w-two-line-title {
+	-epub-hyphens:none;
+	color:#000000;
+	font-family:"Minion Pro Semibold Italic", sans-serif;
+	font-size:12px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.167;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:33px;
+	orphans:99;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:left;
+	text-decoration:none;
+	text-indent:0;
+	text-transform:none;
+	widows:1;
+}
+p.•bioline {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:10px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.15;
+	margin-bottom:7px;
+	margin-left:0;
+	margin-right:0;
+	margin-top:0;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:0;
+	text-transform:none;
+	widows:2;
+}
+p.•endnotes {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:10px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.15;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:0;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:15px;
+	text-transform:none;
+	widows:2;
+}
+p.•quote-begin-indent {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:10px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.23;
+	margin-bottom:0;
+	margin-left:15px;
+	margin-right:15px;
+	margin-top:5px;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:15px;
+	text-transform:none;
+	widows:2;
+}
+p.•quote-begin-no-indent {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:10px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.23;
+	margin-bottom:0;
+	margin-left:15px;
+	margin-right:15px;
+	margin-top:5px;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:0;
+	text-transform:none;
+	widows:2;
+}
+p.•quote-indent {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:10px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.23;
+	margin-bottom:8px;
+	margin-left:15px;
+	margin-right:15px;
+	margin-top:5px;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:15px;
+	text-transform:none;
+	widows:2;
+}
+p.•quote-no-indent {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:10px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.23;
+	margin-bottom:8px;
+	margin-left:15px;
+	margin-right:15px;
+	margin-top:5px;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:0;
+	text-transform:none;
+	widows:2;
+}
+p.•rule-line {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:11px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.209;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:18px;
+	orphans:2;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:justify;
+	text-align-last:left;
+	text-decoration:none;
+	text-indent:0;
+	text-transform:none;
+	widows:2;
+}
+p.•subhead--1- {
+	color:#000000;
+	font-family:"Minion Pro Bold", sans-serif;
+	font-size:11px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.209;
+	margin-bottom:6px;
+	margin-left:0;
+	margin-right:0;
+	margin-top:13px;
+	orphans:99;
+	page-break-after:avoid;
+	page-break-before:auto;
+	text-align:left;
+	text-decoration:none;
+	text-indent:0;
+	text-transform:none;
+	widows:1;
+}
+p.•title-two-line {
+	-epub-hyphens:none;
+	color:#000000;
+	font-family:"Minion Pro Bold Subhead", sans-serif;
+	font-size:18px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.167;
+	margin-bottom:6px;
+	margin-left:0;
+	margin-right:0;
+	margin-top:13px;
+	orphans:99;
+	page-break-after:avoid;
+	page-break-before:auto;
+	text-align:left;
+	text-decoration:none;
+	text-indent:0;
+	text-transform:none;
+	widows:1;
+}
+span.Note-reference {
+	vertical-align:super;
+}
+span.TNR {
+	font-family:"Times New Roman", serif;
+	font-style:italic;
+	font-weight:normal;
+}
+span.all-small-caps {
+	font-variant:small-caps;
+	text-transform:none;
+}
+span.italic {
+	font-style:italic;
+	font-weight:normal;
+}
+p.ParaOverride-1 {
+	text-align:left;
+}
+span.CharOverride-1 {
+	font-size:65%;
+}
+span.CharOverride-2 {
+	font-style:italic;
+	font-weight:bold;
+}
+span.CharOverride-3 {
+	font-size:7px;
+}
+span._idGenCharOverride-1 {
+	font-size:65%;
+}
+._idGenDropcap-1 {
+	float:left;
+	font-size:2.86em;
+	line-height:1;
+	margin-bottom:-0.273em;
+	margin-right:0.05em;
+	margin-top:-0.074em;
+}
+div._idGenObjectStyleOverride-1 {
+	border-width:0px;
+}
+hr.HorizontalRule-1 {
+	border-bottom:none;
+	border-left:none;
+	border-right:none;
+	border-top:solid #000000 1px;
+}
