@@ -113,6 +113,8 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             string = remove_line_breaks(str(subtitle))
             new_subtitle = BeautifulSoup(string, features='html.parser')
             subtitle.replace_with(new_subtitle)
+        
+
 
     # Document Title
         # (for document transcriptions)
@@ -182,11 +184,11 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         for el in element:
             siblings = [sibling for sibling in el.next_siblings if type(sibling)!= NavigableString]
             # list of all next_siblings class
-            li = [s['class']for s in siblings if 'class'in s.attrs]
+            # li = [s['class']for s in siblings if 'class'in s.attrs]
             # print(li[:3])
             els = [i for i in itertools.takewhile(
                 lambda x: 'class'in x.attrs and 'indent-1-2' in x['class'], siblings)]
-            ol = soup.new_tag('ol')
+            ol = soup.new_tag('ul')
             el.wrap(ol)
             for child in els:
                 ol.append(child)
@@ -659,7 +661,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'CharOverride-11')
 
         for element in soup.findAll('span', class_=""):
-            element.unwrap();
+            element.unwrap()
 
     # Remove Unnecessary Container IDs and Generic Object Attributes
         for element in soup.findAll('div'):
