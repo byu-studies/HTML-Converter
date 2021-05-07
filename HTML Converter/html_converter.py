@@ -157,7 +157,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # 1-2 Hanging Indent
         clean_paragraphs(['•10-5-Hanging-IndPar-Middle','•10-5-Hanging-interior-para',
-                          '•Hanging-Indent-Paragraph--small-', '•Hanging-IndPar-Middle', 'example-lines'], None,
+                          '•Hanging-Indent-Paragraph--small-', '•Hanging-IndPar-Middle', 'example-lines', 'list-subparagraph'], None,
                          'indent-1-2')
 
         # 1-2 Hanging Indent with Space after paragraph
@@ -647,6 +647,11 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         delete_element(soup, 'p', '•Book-Review-Sidebar')
         delete_element(soup, 'div', 'arrow')
         delete_element(soup, 'span', 'Endnote-Reference-no-super')
+
+
+        remove_class(soup, 'p', 'ParaOverride-1')
+        remove_class(soup, 'p', 'ParaOverride-')
+        remove_class(soup, 'p', 'ParaOverride-3')
 
         remove_class(soup, 'span', 'CharOverride-1')
         remove_class(soup, 'span', 'CharOverride-2')
