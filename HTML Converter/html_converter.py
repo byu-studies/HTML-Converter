@@ -145,8 +145,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['•subhead--2-','volumes','volume-hanging','subhead2'], 'h4', None)
 
         # Default Paragraphs
-        clean_paragraphs(['Normal', '•1st-paragrph', 'Normal-no-indent', '•brief-notices-no-indent','body-text-no-indent',
+        clean_paragraphs(['•1st-paragrph', 'Normal-no-indent', '•brief-notices-no-indent','body-text-no-indent',
         '•brief-notices-text','comparisons'], 'p', None)
+        clean_paragraphs(['Normal'], 'p', 'indent-1-0')
 
         # 1-0 First Line Indent
         clean_paragraphs(['•brief-notices-indent', 'inline-subhead'], None, 'indent-1-0')
@@ -157,7 +158,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # 1-2 Hanging Indent
         clean_paragraphs(['•10-5-Hanging-IndPar-Middle','•10-5-Hanging-interior-para',
-                          '•Hanging-Indent-Paragraph--small-', '•Hanging-IndPar-Middle', 'example-lines'], None,
+                          '•Hanging-Indent-Paragraph--small-', '•Hanging-IndPar-Middle', 'example-lines', 'list-subparagraph'], None,
                          'indent-1-2')
 
         # 1-2 Hanging Indent with Space after paragraph
@@ -648,6 +649,11 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         delete_element(soup, 'div', 'arrow')
         delete_element(soup, 'span', 'Endnote-Reference-no-super')
 
+
+        remove_class(soup, 'p', 'ParaOverride-1')
+        remove_class(soup, 'p', 'ParaOverride-')
+        remove_class(soup, 'p', 'ParaOverride-3')
+
         remove_class(soup, 'span', 'CharOverride-1')
         remove_class(soup, 'span', 'CharOverride-2')
         remove_class(soup, 'span', 'CharOverride-3')
@@ -685,7 +691,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # horizontal spacing classes
         known_classes += ['indent-1-0', 'indent-0-1', 'indent-1-2', 'indent-2-0', 'indent-2-3', 'indent-3-4',
                           'indent-4-5', 'indent-2-2', 'indent-3-3', 'block-quote', 'block-quote-indent',
-                          'publication-lines', 'right', 'interview-first', 'interview-additional']
+                          'publication-lines', 'right', 'interview-first', 'interview-additional', 'indent']
 
         # vertical spacing classes
         known_classes += ['begin', 'end', 'dingbat', 'poem-text']
