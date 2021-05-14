@@ -142,11 +142,11 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['•subhead--1-'], 'h3', None)
 
         # Level 3 Headers
-        clean_paragraphs(['•subhead--2-','volumes','volume-hanging','subhead2'], 'h4', None)
+        clean_paragraphs(['•subhead--2-','volumes','volume-hanging','subhead2','Headings', 'ordering-fine-print'], 'h4', None)
 
         # Default Paragraphs
         clean_paragraphs(['•1st-paragrph', 'Normal-no-indent', '•brief-notices-no-indent','body-text-no-indent',
-        '•brief-notices-text','comparisons'], 'p', None)
+        '•brief-notices-text','comparisons','notict-title'], 'p', None)
         clean_paragraphs(['Normal'], 'p', 'indent-1-0')
 
         # 1-0 First Line Indent
@@ -542,7 +542,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element['class']= '_idGenObjectStyleOverride-1'
 
         # Tables
-        for element in soup.findAll(['table', 'td', 'tr'], class_=['shaded-table', 'Basic-Table', 'No-Table-Style', 'blank']):
+        for element in soup.findAll(['table', 'td', 'tr'], class_=['shaded-table', 'Basic-Table', 'No-Table-Style', 'blank','Table-Section-Heading ']):
             del element['class']
         # Col
         for element in soup.findAll('col'):
@@ -570,7 +570,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['table-heads-bold','tables_table-heads-bold'], None, 'bold')
 
         # Table Rows
-        for element in soup.findAll('tr', class_=['No-Table-Style', '_idGenTableRowColumn-3', '_idGenTableRowColumn-12']):
+        for element in soup.findAll('tr', class_=['No-Table-Style', '_idGenTableRowColumn-3', '_idGenTableRowColumn-12','Table-Heading-Style','Table-Style-1 ']):
             del element['class']
 
         # # Table Data (Cell)
@@ -643,6 +643,10 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'featurestext')
         unwrap_element(soup, 'span', 'hollow')
         unwrap_element(soup, 'span', 'Zapf')
+        unwrap_element(soup, 'p', 'Table-Style-1')
+        unwrap_element(soup, 'p', 'Table-Section-Heading')
+
+
 
         delete_element(soup, 'p', '•Side-vertical-title')
         delete_element(soup, 'p', '•Book-Review-Sidebar')
@@ -668,6 +672,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'CharOverride-9')
         unwrap_element(soup, 'span', 'CharOverride-10')
         unwrap_element(soup, 'span', 'CharOverride-11')
+        unwrap_element(soup, 'span', 'CharOverride-12')
+        unwrap_element(soup, 'span', 'CharOverride-13')
+        unwrap_element(soup, 'span', 'CharOverride-14')
 
         for element in soup.findAll('span', class_=""):
             element.unwrap()
@@ -700,7 +707,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         known_classes += ['begin', 'end', 'dingbat', 'poem-text']
 
         # footnote/appendix classes
-        known_classes += ['footnote-link', 'footnote-body', 'all-footnotes', 'bibliography-entry', 'appendix-title']
+        known_classes += ['footnote-link', 'footnote-body', 'all-footnotes', 'bibliography-entry', 'appendix-title', 'Masthead-Titles', 'Masthead-people']
 
         # image-related classes
         known_classes += ['graphic-frame', 'graphic-frame-outer', 'caption', 'caption-frame', 'invisible',
