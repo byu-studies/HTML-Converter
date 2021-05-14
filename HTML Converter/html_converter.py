@@ -135,7 +135,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Level 1 Headers
         # ==> h2
-        clean_paragraphs(['•subhead--0-', 'Heading-1-Text','nonheading'], 'h2' , None)
+        clean_paragraphs(['•subhead--0-', 'Heading-1-Text','nonheading','h2'], 'h2' , None)
 
         # Level 2 Headers
         # ==> h3
@@ -157,7 +157,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['•10-5-Hanging-Indent-Paragraph'], None,'indent-1-2 begin')
 
         # 1-2 Hanging Indent
-        clean_paragraphs(['•10-5-Hanging-IndPar-Middle','•10-5-Hanging-interior-para',
+        clean_paragraphs(['•10-5-Hanging-IndPar-Middle','•10-5-Hanging-interior-para','•Hanging-Indent-Paragraph',
                           '•Hanging-Indent-Paragraph--small-', '•Hanging-IndPar-Middle', 'example-lines', 'list-subparagraph'], None,
                          'indent-1-2')
 
@@ -277,7 +277,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                 element['class'] = 'small-caps'
 
         # Italics
-        clean_span(['italic', 'Emphasis', 'table-italic', 'tables_table-heads-italic','tabular-figures','TNR-ital','scriptures','link-italic'], None, 'italics')
+        clean_span(['italic', 'Emphasis', 'table-italic', 'tables_table-heads-italic','tabular-figures','TNR-ital','scriptures','link-italic', 'ital'], None, 'italics')
 
         # Script to remove all <span class="italics"> to <em>
         for element in soup.findAll('span', class_='italics'):
