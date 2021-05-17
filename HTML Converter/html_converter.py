@@ -620,7 +620,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             for tag in element('strong'):
                 tag.unwap()
 
-
         # Delete Unnecessary Tags
         unwrap_element(soup, 'span', '_idGenDropcap-1')
         unwrap_element(soup, 'span', '_idGenCharOverride-1')
@@ -643,10 +642,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'featurestext')
         unwrap_element(soup, 'span', 'hollow')
         unwrap_element(soup, 'span', 'Zapf')
-        unwrap_element(soup, 'p', 'Table-Style-1')
-        unwrap_element(soup, 'p', 'Table-Section-Heading')
-
-
 
         delete_element(soup, 'p', '•Side-vertical-title')
         delete_element(soup, 'p', '•Book-Review-Sidebar')
