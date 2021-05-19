@@ -139,7 +139,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Level 2 Headers
         # ==> h3
-        clean_paragraphs(['•subhead--1-'], 'h3', None)
+        clean_paragraphs(['•subhead--1-', 'h3'], 'h3', None)
 
         # Level 3 Headers
         clean_paragraphs(['•subhead--2-','volumes','volume-hanging','subhead2','Headings', 'ordering-fine-print'], 'h4', None)
@@ -254,7 +254,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element.name = 'ins'
 
         # Underlined Superscripts
-        clean_span(['underlined-superscript'], None, 'underline superscript')
+        clean_span(['underlined-superscript','superscript-underline'], None, 'underline superscript')
         # Wrap a strong tag around <span class_='underline superscript'/>
         for element in soup.findAll('span', class_='underline superscript'):
             string = str(element)
@@ -277,7 +277,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                 element['class'] = 'small-caps'
 
         # Italics
-        clean_span(['italic', 'Emphasis', 'table-italic', 'tables_table-heads-italic','tabular-figures','TNR-ital','scriptures','link-italic', 'ital'], None, 'italics')
+        clean_span(['italic', 'Emphasis', 'table-italic', 'tables_table-heads-italic','tabular-figures','TNR-ital','scriptures','link-italic', 'ital', 'CITE'], None, 'italics')
 
         # Script to remove all <span class="italics"> to <em>
         for element in soup.findAll('span', class_='italics'):
@@ -308,7 +308,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['bold italics'], None, None)  # remove all bold italics class tags
 
         # Footnotes Links
-        for element in soup.findAll('a', class_='_idFootnoteLink _idGenColorInherit'):
+        for element in soup.findAll('a', class_=['_idFootnoteLink _idGenColorInherit','_idEndnoteLink _idGenColorInherit']):
             element['class'] = 'footnote-link'
             #adjust href so anchor tags work on website
             holder = str(element['href'])
@@ -416,9 +416,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         for element in soup.findAll('div', class_='_idFootnote'):
             element['class'] = 'footnote-body'
 
-        clean_paragraphs(['•endnotes', '•endnotes-in', '•endnotes-in-2'], None, None)
+        clean_paragraphs(['•endnotes', '•endnotes-in', '•endnotes-in-2','Basic-Paragraph'], None, None)
 
-        for element in soup.findAll('a', class_='_idFootnoteAnchor _idGenColorInherit'):
+        for element in soup.findAll('a', class_=['_idFootnoteAnchor _idGenColorInherit', '_idEndnoteAnchor _idGenColorInherit']):
             del element['class']
 
             #adjust href so anchor tags work on website
@@ -542,7 +542,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element['class']= '_idGenObjectStyleOverride-1'
 
         # Tables
-        for element in soup.findAll(['table', 'td', 'tr'], class_=['shaded-table', 'Basic-Table', 'No-Table-Style', 'blank','Table-Section-Heading ']):
+        for element in soup.findAll(['table', 'td', 'tr'], class_=['shaded-table', 'Basic-Table', 'No-Table-Style', 'blank','Table-Section-Heading']):
             del element['class']
         # Col
         for element in soup.findAll('col'):
@@ -561,7 +561,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Table Heads
         for element in soup.findAll('td'):
-            for paragraph in element.findAll('p', class_=['Heading-2', 'table-heads-bold', 'table-heads-italic', 'timeline-table']):
+            for paragraph in element.findAll('p', class_=['Heading-2', 'table-heads-bold', 'table-heads-italic', 'timeline-table','Basic-Paragraph']):
                 paragraph.unwrap()
                 element.name = 'th'
         if re.sub(r'.*/', '', input_filename) == 'a-Welch.html':
@@ -570,7 +570,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['table-heads-bold','tables_table-heads-bold'], None, 'bold')
 
         # Table Rows
-        for element in soup.findAll('tr', class_=['No-Table-Style', '_idGenTableRowColumn-3', '_idGenTableRowColumn-12','Table-Heading-Style','Table-Style-1 ']):
+        for element in soup.findAll('tr', class_=['No-Table-Style', '_idGenTableRowColumn-3', '_idGenTableRowColumn-12','Table-Heading-Style']):
             del element['class']
 
         # # Table Data (Cell)
@@ -634,6 +634,10 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'div', '_idGenObjectLayout-5')
         unwrap_element(soup, 'div', '_idGenObjectAttribute-14')
         unwrap_element(soup, 'div', '_idGenObjectAttribute-18')
+        # unwrap_element(soup, 'a', '_idGenColorInherit')
+        # unwrap_element(soup, 'a', '_idEndnoteLink')
+        # unwrap_element(soup, 'a', '_idEndnoteAnchor')
+
         unwrap_element(soup, 'span', 'reference-text')
         unwrap_element(soup, 'span', 'apple-converted-space')
         unwrap_element(soup, 'span', 'lining-numbers')
