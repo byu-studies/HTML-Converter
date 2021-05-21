@@ -317,6 +317,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element['href'] = holder
 
 
+
         # Bold Underline
         clean_span(['bold-underline'], None, 'bold underline')
 
@@ -386,16 +387,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
             clean_paragraphs(['•bioline'], None, None)  # remove all .•bioline class tags
 
-        # Footnotes Links
-        for element in soup.findAll('a', class_='_idFootnoteLink _idGenColorInherit'):
-            element['class'] = 'footnote-link'
-             #adjust href so anchor tags work on website
-            holder = str(element['href'])
-            seperated = holder.split("#") 
-            holder = "#" + seperated[1]
-            element['href'] = holder
-
-
         for element in soup.findAll('span', class_='Note-reference'):
             element.unwrap()
 
@@ -409,14 +400,28 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                 del element['id']
                 element.name = 'sup'
 
+        # Find the correct endnote id and replace with supscript native tag
+        for element in soup.findAll('span'):
+            if element.get('id') is not None and re.match(r'endnote-[0-9]{3}-backlink', element.get('id')):
+                element.contents[0]['id'] = element['id']
+                del element['id']
+                element.name = 'sup'
+
         # Footnotes
         for element in soup.findAll('div', class_='_idFootnotes'):
+            element['class'] = 'all-footnotes'
+            # Footnotes
+        for element in soup.findAll('div', class_='Basic-Text-Frame'):
             element['class'] = 'all-footnotes'
 
         for element in soup.findAll('div', class_='_idFootnote'):
             element['class'] = 'footnote-body'
 
-        clean_paragraphs(['•endnotes', '•endnotes-in', '•endnotes-in-2','Basic-Paragraph'], None, None)
+        for element in soup.findAll('p', class_='Basic-Paragraph'):
+            # remove p class
+            element['class'] = 'footnote-body'
+
+        clean_paragraphs(['•endnotes', '•endnotes-in', '•endnotes-in-2'], None, None)
 
         for element in soup.findAll('a', class_=['_idFootnoteAnchor _idGenColorInherit', '_idEndnoteAnchor _idGenColorInherit']):
             del element['class']
@@ -425,6 +430,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             holder = str(element['href'])
             seperated = holder.split("#") 
             holder = "#" + seperated[1]
+            # fix up the broken link for end-notes
+            link_tag = holder[1:-9]
+            element['id'] = link_tag
             element['href'] = holder
 
         unwrap_element(soup, 'span', 'Footnote-Reference')
@@ -634,9 +642,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'div', '_idGenObjectLayout-5')
         unwrap_element(soup, 'div', '_idGenObjectAttribute-14')
         unwrap_element(soup, 'div', '_idGenObjectAttribute-18')
-        # unwrap_element(soup, 'a', '_idGenColorInherit')
-        # unwrap_element(soup, 'a', '_idEndnoteLink')
-        # unwrap_element(soup, 'a', '_idEndnoteAnchor')
 
         unwrap_element(soup, 'span', 'reference-text')
         unwrap_element(soup, 'span', 'apple-converted-space')
@@ -646,6 +651,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'featurestext')
         unwrap_element(soup, 'span', 'hollow')
         unwrap_element(soup, 'span', 'Zapf')
+        unwrap_element(soup, 'span', 'hit')
+        unwrap_element(soup, 'span', 'footnote-reference')
+
 
         delete_element(soup, 'p', '•Side-vertical-title')
         delete_element(soup, 'p', '•Book-Review-Sidebar')
@@ -658,6 +666,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         remove_class(soup, 'p', 'ParaOverride-3')
         remove_class(soup, 'p', 'ParaOverride-4')
         remove_class(soup, 'p', 'ParaOverride-5')
+
 
 
         remove_class(soup, 'span', 'CharOverride-1')
