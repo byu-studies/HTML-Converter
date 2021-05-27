@@ -150,7 +150,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['Normal'], 'p', 'indent-1-0')
 
         # 1-0 First Line Indent
-        clean_paragraphs(['•brief-notices-indent', 'inline-subhead'], None, 'indent-1-0')
+        clean_paragraphs(['•brief-notices-indent', 'inline-subhead','Paragraph-Style-First'], None, 'indent-1-0')
 
         #1-2 Hanging Indent Begin
         # (first line indented once, all other lines indented twice)
@@ -285,7 +285,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element.name = 'em'
 
         # Bold
-        clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold', 'semibold', 'table-bold'], None, 'bold')
+        clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold', 'semibold', 'table-bold','Times-bold'], None, 'bold')
 
         # Script to remove all <span class="bold"> to <em>
         for element in soup.findAll('span', class_='bold'):
@@ -293,7 +293,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element.name = 'strong'
 
         # Bold Italics
-        clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital','table-bold-ital', 'table-bold-italic'], None, 'bold italics')
+        clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital','table-bold-ital', 'table-bold-italic','semibold-ital'], None, 'bold italics')
 
         # Wrap a strong tag around <span class_='bold italics'/>
         for element in soup.findAll('span', class_='bold italics'):
@@ -350,7 +350,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
 
     # Hebrew
-        clean_span(['Hebrew-TNR', 'TNR-Hebrew', 'TNR'], None, 'hebrew')
+        clean_span(['Hebrew-TNR', 'TNR-Hebrew','TNR-hebrew', 'TNR','hebrew-transliteration-ital'], None, 'hebrew')
 
         # Foreign
         clean_span(['vowel'], None, 'foreign')
@@ -653,6 +653,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'Zapf')
         unwrap_element(soup, 'span', 'hit')
         unwrap_element(soup, 'span', 'footnote-reference')
+        unwrap_element(soup,'span','Comment-Reference')
 
 
         delete_element(soup, 'p', '•Side-vertical-title')
@@ -666,6 +667,10 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         remove_class(soup, 'p', 'ParaOverride-3')
         remove_class(soup, 'p', 'ParaOverride-4')
         remove_class(soup, 'p', 'ParaOverride-5')
+        remove_class(soup, 'p', 'ParaOverride-6')
+        remove_class(soup, 'p', 'ParaOverride-7')
+        remove_class(soup, 'p', 'ParaOverride-8')
+        remove_class(soup, 'p', 'Title')
 
 
 
