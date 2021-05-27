@@ -146,7 +146,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Default Paragraphs
         clean_paragraphs(['•1st-paragrph', 'Normal-no-indent', '•brief-notices-no-indent','body-text-no-indent',
-        '•brief-notices-text','comparisons','notict-title'], 'p', None)
+        '•brief-notices-text','comparisons','notict-title','ChronologyStyle','chron-subhead'], 'p', None)
         clean_paragraphs(['Normal'], 'p', 'indent-1-0')
 
         # 1-0 First Line Indent
@@ -269,7 +269,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
 
         # Small Caps
-        for element in soup.findAll('span', class_='all-small-caps'):
+        for element in soup.findAll('span', class_=['all-small-caps','table-small-caps']):
             string = str(element.string)
             if string is not None and string.isupper():
                 element.unwrap()
@@ -285,7 +285,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element.name = 'em'
 
         # Bold
-        clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold', 'semibold', 'table-bold','Times-bold'], None, 'bold')
+        clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold', 'semibold', 'table-bold','Times-bold','Bold'], None, 'bold')
 
         # Script to remove all <span class="bold"> to <em>
         for element in soup.findAll('span', class_='bold'):
@@ -350,7 +350,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
 
     # Hebrew
-        clean_span(['Hebrew-TNR', 'TNR-Hebrew','TNR-hebrew', 'TNR','hebrew-transliteration-ital'], None, 'hebrew')
+        clean_span(['Hebrew-TNR','hebrew-TNR', 'TNR-Hebrew','TNR-hebrew', 'TNR','hebrew-transliteration-ital'], None, 'hebrew')
 
         # Foreign
         clean_span(['vowel'], None, 'foreign')
@@ -586,7 +586,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         #     del element['class']
 
         # Table Text
-        clean_paragraphs(['table-text', '•table-text','tables_table-text','bold'], None, 'table-text')
+        clean_paragraphs(['table-text', '•table-text','tables_table-text','bold','table-text-bullet-list'], None, 'table-text')
 
         # Book Notices
         delete_class(soup, 'p', 'pub-info')
@@ -642,6 +642,8 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'div', '_idGenObjectLayout-5')
         unwrap_element(soup, 'div', '_idGenObjectAttribute-14')
         unwrap_element(soup, 'div', '_idGenObjectAttribute-18')
+        unwrap_element(soup, 'div', '_p1Wrap')
+
 
         unwrap_element(soup, 'span', 'reference-text')
         unwrap_element(soup, 'span', 'apple-converted-space')
@@ -654,6 +656,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'hit')
         unwrap_element(soup, 'span', 'footnote-reference')
         unwrap_element(soup,'span','Comment-Reference')
+        unwrap_element(soup,'span','TNR-Greek')
 
 
         delete_element(soup, 'p', '•Side-vertical-title')
@@ -670,6 +673,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         remove_class(soup, 'p', 'ParaOverride-6')
         remove_class(soup, 'p', 'ParaOverride-7')
         remove_class(soup, 'p', 'ParaOverride-8')
+        remove_class(soup, 'p', 'ParaOverride-10')
         remove_class(soup, 'p', 'Title')
 
 
