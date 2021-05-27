@@ -500,7 +500,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         for element in soup.findAll('p'):
             if element.get('class') == 'caption':
                 parent_class = element.parent.get('class')
-                if '_idGenObjectStyleOverride-1' in parent_class or 'Basic-Text-Frame' in parent_class:
+                if '_idGenrObjectStyleOverride-1' in parent_class or 'Basic-Text-Frame' in parent_class:
                     element.parent['class'] = 'caption-frame'
         # Make Sure Caption Frames are inside graphic-frame-outer
         for element in soup.findAll('div'):
@@ -675,8 +675,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         remove_class(soup, 'p', 'ParaOverride-8')
         remove_class(soup, 'p', 'ParaOverride-10')
         remove_class(soup, 'p', 'Title')
-
-
+        delete_class(soup, 'li', '•10-5-Hanging-IndPar-End')
+        delete_class(soup, 'li', '•10-5-Hanging-Indent-Start')
+        delete_class(soup, 'li', '•10-5-Hanging-IndPar-Middle')
 
         remove_class(soup, 'span', 'CharOverride-1')
         remove_class(soup, 'span', 'CharOverride-2')
