@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<title>a-Jin+Delai+Draper</title>
+<link href="styles.css" rel="stylesheet" type="text/css"/>
+</head>
+<body id="a-Jin-Delai-Draper" lang="en-US">
+
+<h1>Visualizing Apostolic Succession</h1>
+<p class="author"><em>Meilan Jin, Iliesa S. K. Delai, and Geoffrey M. Draper</em></p>
+<p>For years, The Church of Jesus Christ of Latter-day Saints has published pictures and other illustrative diagrams to communicate its message. For example, the children’s book <em>Book of Mormon Stories</em> includes an illustrative map indicating the possible route of Lehi’s family from the Arabian peninsula to the Americas.<sup><a class="footnote-link" href="#footnote-017" id="footnote-017-backlink">1</a></sup> Seminary students receive bookmarks showing a timeline of peoples and events in the Book of Mormon.<sup><a class="footnote-link" href="#footnote-016" id="footnote-016-backlink">2</a></sup> More recently, the Church has published a series of “information graphics” (known more commonly as <em>infographics</em>) on its website.<sup><a class="footnote-link" href="#footnote-015" id="footnote-015-backlink">3</a></sup> Infographics combine color, text, and images to convey statistical or policy information in a visually pleasing manner. The Church’s infographics cover a range of topics such as humanitarian aid, missionary work, and genealogy. However, like all pictures, infographics are inherently <em>static</em>, meant to be viewed but not interacted with. As such, they are great at answering the questions the artist intended but are less effective at letting the reader discover answers to new questions that may arise from an initial view of the graphic. To allow this deeper level of exploration, graphics must be <em>interactive</em>.</p>
+<h2>Information Visualization</h2>
+<p>Information visualization is a field of research typically associated with computer science, although it incorporates elements of statistics, graphic design, and psychology. Information visualization (often abbreviated as <em>infovis</em>) has been recognized as a distinct field of academic research since the 1990s, with the first academic symposium on infovis being held in 1995.<sup><a class="footnote-link" href="#footnote-014" id="footnote-014-backlink">4</a></sup> Infovis certainly includes the design, creation, and evaluation of information graphics but focuses more specifically on building interactive systems that allow users to explore large data sets on a computer.</p>
+<p class="indent-1-0">Some of the most-cited projects in infovis research during the past three decades include treemaps (fig. 1) for displaying hierarchical data, parallel coordinates (fig. 2) for visualizing multidimensional data, and ThemeRiver™ (fig. 3) for showing recurring themes in textual data over time.</p>
+<p class="indent-1-0">As stated above, a major focus of infovis research is interactivity. Users must be able to browse, explore, query, and review data visually. These goals were perhaps best articulated by Ben Shneiderman in 1996 in a set of guidelines known as the “Visual Information Seeking Mantra.”<sup><a class="footnote-link" href="#footnote-013" id="footnote-013-backlink">5</a></sup> According to the mantra, every infovis system should offer (at least) the following three features:</p>
+<ul><p class="indent-1-2 begin">1.	Overview First</p><p class="indent-1-2">2.	Zoom and Filter</p><p class="indent-1-2 end">3.	Details on Demand</p></ul>
+
+
+<p class="indent-1-0">In other words, a visualization system should start by displaying a summary of the entire data set, then allow the user to interactively select part of the data to explore in more depth. The user should also have the option of retrieving full details on any individual data item.</p>
+<h2>Adapting for Small Screens</h2>
+<p>The visual information–seeking mantra has served the information visualization community well for nearly two decades. However, the advent of mobile devices such as tablets and smartphones poses a special challenge for infovis—in particular the goal of adhering to the first tenet of the mantra: Overview First. How can one effectively display an overview of a complex data set on devices that have smaller screen sizes and less computational power than traditional desktop computers? There is not likely a single solution that will work for every kind of data; however, to solidify the present discussion, we will focus on time-series data.<sup><a class="footnote-link" href="#footnote-012" id="footnote-012-backlink">6</a></sup></p>
+<p class="indent-1-0">We propose that large time-series datasets can be effectively visualized on mobile devices by showing a single “snapshot” of the data at a given moment in time, then allowing the user to easily navigate forward and backward in time to view other snapshots. This limits the number of data points that the system needs to render at any given time while still granting quick access to the remainder of the data. In this way, the on-screen visualization is clean and uncluttered, even on phone-sized screens.</p>
+<h2>Apostolic Succession App</h2>
+<p>As a proof of concept for our method of visualizing time-series data on small screens, we designed and implemented a mobile app called Latter-day Apostles that lets users explore a data set of all latter-day Apostles since 1832. There are two apostolic quorums in The Church of Jesus Christ of Latter-day Saints: the Quorum of the First Presidency and the Quorum of the Twelve Apostles. Mathematically, both quorums are examples of <em>well-ordered sets.</em><sup><a class="footnote-link" href="#footnote-011" id="footnote-011-backlink">7</a></sup> That is, each quorum has a first member and a last member, with all other members uniquely ranked somewhere in between. For example, in the First Presidency, the President of the Church is the first member, the first counselor is the second member, and the second counselor is the third member.<sup><a class="footnote-link" href="#footnote-010" id="footnote-010-backlink">8</a></sup> In the Quorum of the Twelve, the first member is the president of the quorum, who is also the Apostle with the earliest ordination date within the quorum. The second member is the Apostle with the next-earliest ordination date, and so on until the last member who is the most recently ordained Apostle.</p>
+<p class="indent-1-0">The apostolic quorums are not the only contemporary organizations that follow a well-ordered set model. Other examples include the United States Supreme Court, the Joint Chiefs of Staff, the College of Cardinals in the Catholic Church, and boards of directors for many corporations.</p>
+<h3>Visual Layout</h3>
+<p>We use a ring-based layout<sup><a class="footnote-link" href="#footnote-009" id="footnote-009-backlink">9</a></sup> for our visualization of the Apostles. Ring-based layouts seem to work well for well-ordered sets because they visually communicate the ranking within the set while making efficient use of screen real estate. Since there are two distinct apostolic quorums, we employ a dual-ring approach that shows both the First Presidency (inner ring) and the Twelve (outer ring), as figure 4 shows.</p>
+<h3>User Interactions</h3>
+<p>Our method currently supports four ways of “moving through” the data. We rank them from least precise to most precise. Users may employ all four methods during the course of a single session using the app. </p>
+<p class="indent-1-0"><em>Low precision.</em> The user can rotate the outer circle with his or her finger, counterclockwise to go back in time, clockwise to go forward in time (see fig. 5). While this gesture allows the user to specify the direction of navigation, it is not well suited for selecting an exact date.</p>
+<p class="indent-1-0"><em>Medium precision.</em> To select a specific year, the user can move a “slider” located underneath the graphic, left to go back in time, right to go forward (see fig. 6). When the user moves the slider, the chart updates to show how the quorums looked on January 1 of the selected year.<sup><a class="footnote-link" href="#footnote-008" id="footnote-008-backlink">10</a></sup> This is acceptable to get a broad overview of the quorums’ progression over time, but insufficient for those years (such as 2015) when multiple changes occur in the quorums within a single calendar year. For these years, more precise controls are needed.</p>
+<p class="indent-1-0"><em>Medium-High Precision.</em> Directly above the slider are two buttons. These buttons allows the user to navigate to dates on which changes took place in the quorums. Tapping the “back” button takes the user to the date of the previous change in the apostleship; tapping the “forward” button jumps to the date of the next change (see fig. 7).</p>
+<p class="indent-1-0"><em>High precision.</em> To see what the quorums looked like on a specific date, the user can select the calendar option from the app’s toolbar. After the user selects an exact date on the calendar, the chart updates immediately to show the quorum membership on that date (see fig. 8).</p>
+<p class="indent-1-0">Consistent with the visual information–seeking mantra, the app does support the notion of “details on demand.” If the user taps any Apostle’s portrait, the app opens a pop-up window with a higher-resolution portrait of that Apostle accompanied by biographical information. </p>
+<h3>Transitions</h3>
+<p>It is a well-established design principle in infovis that transitions from one view of the data to the next must be animated. This is not mere eye candy; animated transitions are essential to maintain the user’s sense of context and to avoid disorientation, particularly in radial layouts such as ours.<sup><a class="footnote-link" href="#footnote-007" id="footnote-007-backlink">11</a></sup></p>
+<p class="indent-1-0">We have chosen the following transitions to represent the different types of transitions an Apostle can make from year to year.</p>
+<p class="indent-1-0">If an Apostle moves from the Quorum of the Twelve to the First Presidency, or vice versa, we simply move the Apostle’s portrait <em>linearly</em> from its previous position to its current position on the screen (see fig. 9).</p>
+<p class="indent-1-0">If an Apostle moves from one position of seniority in the Quorum of the Twelve to another, we move the Apostle’s portrait <em>angularly</em>, not linearly. The same is true for an Apostle moving from one position of seniority to another within the First Presidency (see fig. 10).</p>
+<p class="indent-1-0">If an Apostle’s portrait is moving from <em>on-screen</em> to <em>off-screen</em>, we animate the portrait outward, away from the center of the ring (see fig. 11).</p>
+<p class="indent-1-0">If an Apostle’s portrait is moving from <em>off-screen</em> to <em>on-screen</em>, we animate the portrait linearly, either from the left or right side of the screen, depending on which is closer to the portrait’s final position on the chart (see fig. 12).</p>
+<p class="indent-1-0">These rules, when applied in quick succession, such as when the user drags the slider bar back and forth rapidly, combine to produce a pleasing “swirl” visual effect.</p>
+<h3>Reception</h3>
+<p>We have been delighted with the reception of the Latter-day Apostles app. As of this writing, it has been downloaded over fifty thousand times since it was first released in August 2014. Interestingly—but not surprisingly—the download rates are cyclical, rising each Sunday and tapering off the other days of the week. Likewise unsurprisingly, downloads spike every six months around general conference time.</p>
+<p class="indent-1-0">Comments have been overwhelmingly positive. Here are some examples:</p>
+<ul><p class="indent-1-2 begin">•	<strong><em>Well executed, great concept.</em></strong><em> Wonderful way to follow the evolving dynamic of LDS Church leadership across its history. Brilliant concept overall. Well done.</em></p><p class="indent-1-2">•	<strong><em>LDS must have.</em></strong><em> Great resource on LDS history. Very user friendly. No ads. My 8 year old LOVES it.</em></p><p class="indent-1-2">•	<strong><em>Very good.</em></strong><em> Being fairly new to the Church, I’ve found this fascinating. Very informative, lovely to feel you know them better, and feel closer to them.</em></p><p class="indent-1-2 end">•	<strong><em>Love It.</em></strong><em> This is such a fun app. I love the way the date changes by turning the “dial.” Maybe a Relief Society app can be developed. :)</em></p></ul>
+
+
+
+<p class="indent-1-0">Currently, the app is available only for Android, BlackBerry, and Kindle Fire devices, but we are currently developing a version for iOS. If there is sufficient interest, we may consider bringing the app to Windows phones as well. The app is currently available in English and Portuguese, with a Spanish translation under development.</p>
+<h3>Future Work</h3>
+<p>Although this visualization seems to work well for the apostolic succession data set, we believe it can be applied to other well-ordered sets. As a first step, we are developing an app that lets users visualize the chronology of U.S. Supreme Court justices (see fig. 13).</p>
+<p class="indent-1-0">While conventional wisdom and past studies<sup><a class="footnote-link" href="#footnote-006" id="footnote-006-backlink">12</a></sup> support the importance of animation in information visualization systems, other studies<sup><a class="footnote-link" href="#footnote-005" id="footnote-005-backlink">13</a></sup> question this assumption. To that end, we would also like to conduct a usability study evaluating whether the animated transitions employed by the app actually improve user comprehension.</p>
+<h2>Conclusion</h2>
+<p>In this paper, we present a general overview of the field of information visualization research and propose an approach to adapting infovis design principles to small-screen devices such as smartphones and tablets. We introduce the software prototype Latter-day Apostles to showcase the possibility of navigating time-series data—in particular, well-ordered sets that vary with time—on a mobile device. Thus far, users have been very receptive to this app and its methods of interaction. We hope that Latter-day Apostles will inspire other infovis researchers in general, and LDS software developers in particular, to create engaging mobile and desktop apps that provide easy navigation through a variety of data sets.</p>
+<div class="author-bio"><p>Meilan Jin is from Yanji, China. She is a current master’s student at Brigham Young University. Her research interests include operational research and engineered system, policy science and human systems, and information visualization and mobile app development. She graduated in 2014 with a BS in computer science and a double minor in information systems and English as Second Language from Brigham Young University–Hawaii.</p><p>Iliesa S. K. Delai is from Suva, Fiji. He is studying computer science at Brigham Young University–Hawaii. When not adding new features to the Latter-day Apostles app, he also works as the webmaster for BYU–H’s Computer and Information Sciences Department. Iliesa loves spending his leisure time with his family and frie<a id="_idTextAnchor001"></a>nds.</p><p>Geoffrey M. Draper is Associate Professor of computer science at Brigham Young University–Hawaii. His research interests include information visualization, human-computer interaction, mobile app development, and vintage computing. He received a PhD in computer science in 2009 at the University of Utah.</p></div>
+
+
+<hr/>
+<div class="all-footnotes">
+<div class="footnote-body" id="footnote-017">
+<p><a href="#footnote-017-backlink" id="footnote-017">1</a>. See Jerry Thompson and Robert T. Barrett, illustrators, <em>Book of Mormon Stories</em> (Salt Lake City: The Church of Jesus Christ of Latter-day Saints, 1997), 16–17; available at <a href="https://www.lds.org/bc/content/shared/content/images/gospel-library/manual/35666/35666_000_008_01.pdf">https://www.lds.org/bc/content/shared/content/images/gospel-library/manual/35666/35666_000_008_01.pdf</a>.</p>
+</div>
+<div class="footnote-body" id="footnote-016">
+<p><a href="#footnote-016-backlink" id="footnote-016">2</a>. See <a href="https://si.lds.org/bc/seminary/content/library/student-resources/bofm/book-of-mormon-bookmark_eng.pdf">https://si.lds.org/bc/seminary/content/library/student-resources/bofm/book-of-mormon-bookmark_eng.pdf</a>.</p>
+</div>
+<div class="footnote-body" id="footnote-015">
+<p><a href="#footnote-015-backlink" id="footnote-015">3</a>. See an example at <a href="http://www.mormonnewsroom.org/media/orig/Mormon_Global-Christ-Centered_12-13-13_Infographic.jpg">http://www.mormonnewsroom.org/media/orig/Mormon_Global-Christ-Centered_12-13-13_Infographic.jpg</a>; see also The Church of Jesus Christ of Latter-day Saints, “Infographics,” <em>Newsroom: The Official Resource for News Media, Opinion Leaders, and the Public,</em> <a href="http://www.mormonnewsroom.org/article/infographics">http://www.mormonnewsroom.org/article/infographics</a>.</p>
+</div>
+<div class="footnote-body" id="footnote-014">
+<p><a href="#footnote-014-backlink" id="footnote-014">4</a>. “Foreword,” <em>IEEE Symposium on Information Visualization</em> (1995), vii, doi:10.1109/INFOVIS.1995.10003.</p>
+</div>
+<div class="footnote-body" id="footnote-013">
+<p><a href="#footnote-013-backlink" id="footnote-013">5</a>. Ben Shneiderman, “The Eyes Have It: A Task by Data Type Taxonomy for Information Visualizations,” <em>IEEE Symposium on Visual Languages </em>(1996), 336, doi:10.1109/VL.1996.545307.</p>
+</div>
+<div class="footnote-body" id="footnote-012">
+<p><a href="#footnote-012-backlink" id="footnote-012">6</a>. Edward Tufte, <em>The Visual Display of Quantitative Information </em>(Cheshire, Conn.: Graphics Press, 1983).</p>
+</div>
+<div class="footnote-body" id="footnote-011">
+<p><a href="#footnote-011-backlink" id="footnote-011">7</a>. Wolfram Research, “Well-Ordered Set,” <em>Wolfram MathWorld, </em><a href="http://mathworld.wolfram.com/WellOrderedSet.html">http://mathworld.wolfram.com/WellOrderedSet.html</a>.</p>
+</div>
+<div class="footnote-body" id="footnote-010">
+<p><a href="#footnote-010-backlink" id="footnote-010">8</a>. At certain times throughout history, there have been additional counselors in the First Presidency, who would rank “fourth” or “fifth” and so on.</p>
+</div>
+<div class="footnote-body" id="footnote-009">
+<p><a href="#footnote-009-backlink" id="footnote-009">9</a>. Geoffrey M. Draper, Yarden Livnat, and Richard F. Riesenfeld, “A Survey of Radial Methods for Information Visualization,” <em>IEEE Transactions on Visualization and Computer Graphics</em> 15 (September/October 2009): 759–76, doi:10.1109/TVCG.2009.23.</p>
+</div>
+<div class="footnote-body" id="footnote-008">
+<p><a href="#footnote-008-backlink" id="footnote-008">10</a>. For the year 1832, the slider defaults to March 8, the date the first First Presidency was organized. In contrast, moving the slider to the current year updates the chart to today’s date. For every other year, the slider defaults to January 1 of the selected year.</p>
+</div>
+<div class="footnote-body" id="footnote-007">
+<p><a href="#footnote-007-backlink" id="footnote-007">11</a>. Ka-Ping Yee, Danyel Fisher, Rachna Dhamija, and Marti Hearst, “Animated Exploration of Dynamic Graphs with Radial Layout,” <em>IEEE Symposium on Information Visualization</em> (2001), 43, doi:10.1109/INFVIS.2001.963279.</p>
+</div>
+<div class="footnote-body" id="footnote-006">
+<p><a href="#footnote-006-backlink" id="footnote-006">12</a>. Yee, Fisher, Dhamija, and Hearst, “Animated Exploration of Dynamic Graphs with Radial Layout,” 43.</p>
+</div>
+<div class="footnote-body" id="footnote-005">
+<p><a href="#footnote-005-backlink" id="footnote-005">13</a>. Barbara Tversky, Julie Bauer Morrison, and Mireille Betrancourt, “Animation: Can It Facilitate?” <em>International Journal of Human-Computer Studies</em> 57, no. 4 (2002): 247–62. </p>
+</div>
+</div>
+
+
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="caption-frame">
+<p class="caption"><strong>Figure 1. </strong>The treemap, first proposed by Ben Shneiderman,<sup><a class="footnote-link" href="#footnote-004" id="footnote-004-backlink">1</a></sup> divides the screen into nested rectangles sized according to each category’s proportion relative to the whole. This particular chart was generated by IBM’s ManyEyes software.<sup><a class="footnote-link" href="#footnote-003" id="footnote-003-backlink">2</a></sup></p>
+<hr/>
+<div class="all-footnotes">
+<div class="footnote-body" id="footnote-004">
+<p><a href="#footnote-004-backlink" id="footnote-004">1</a>. Brian Johnson and Ben Shneiderman, “Tree-Maps: A Space-Filling Approach to the Visualization of Hierarchical Information Structures,” in <em>Proceedings of the 2nd Conference on Visualization ’91</em> (VIS ’91), ed. Gregory M. Nielson and Larry Rosenblum (Los Alamitos, Calif.: IEEE Computer Society Press, 1991), 284–91.</p>
+</div>
+<div class="footnote-body" id="footnote-003">
+<p><a href="#footnote-003-backlink" id="footnote-003">2</a>. Fernanda B. Viegas, Martin Wattenberg, Frank van Ham, Jesse Kriss, and Matt McKeon, “ManyEyes: A Site for Visualization at Internet Scale,” <em>IEEE Transactions on Visualization and Computer Graphics</em> 13 (November/December 2007): 1121–28.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="all-footnotes">
+<p class="caption"><strong>Figure 2. </strong>Parallel coordinates, invented by Alfred Inselberg,<sup><a class="footnote-link" href="#footnote-002" id="footnote-002-backlink">1</a></sup> is a method of displaying many dimensions of data at once. Each vertical axis in the display is assigned to a single attribute, and each entity in the dataset is rendered as a series of connected line segments. This specific chart was generated by Aritra Dasgupta <sup><a class="footnote-link" href="#footnote-001" id="footnote-001-backlink">2</a></sup> and improves upon the basic parallel coordinates design by rendering segments of less interest in a semitransparent color.</p>
+<hr/>
+<div class="all-footnotes">
+<div class="footnote-body" id="footnote-002">
+<p><a href="#footnote-002-backlink" id="footnote-002">1</a>. Alfred Inselberg and Bernard Dimsdale, “Parallel Coordinates: A Tool for Visualizing Multi-dimensional Geometry,” in <em>Proceedings of the 1st Conference on Visualization ’90</em> (VIS ’90), ed. Arie Kaufman (Los Alamitos, Calif.: IEEE Computer Society Press, 1990): 361–78.</p>
+</div>
+<div class="footnote-body" id="footnote-001">
+<p><a href="#footnote-001-backlink" id="footnote-001">2</a>. Aritra Dasgupta and Robert Kosara, “Pargnostics: Screen-Space Metrics for Parallel Coordinates,” <em>IEEE Transactions on Visualization and Computer Graphics</em> 16 (November/December, 2010): 1017–26.</p>
+</div>
+</div>
+</div>
+<div class="all-footnotes">
+<p class="caption"><strong>Figure 3. </strong>The ThemeRiver™ visualization, designed by Havre and others,<sup><a class="footnote-link" href="#footnote-000" id="footnote-000-backlink">1</a></sup> combines a layered bar chart with a timeline to show the changes in frequency of keywords in news stories over time.</p>
+<hr/>
+<div class="all-footnotes">
+<div class="footnote-body" id="footnote-000">
+<p><a href="#footnote-000-backlink" id="footnote-000">1</a>. Susan Havre, Elizabeth Hetzler, Paul Whitney, and Lucy Nowell, “Theme­River: Visualizing Thematic Changes in Large Document Collections,” <em>IEEE Transactions on Visualization and Computer Graphics</em> 8 (January–­March 2002): 9–20, doi:10.1109/2945.981848.</p>
+</div>
+</div>
+</div>
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+</div>
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+</div>
+
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="caption-frame">
+<p class="caption"><strong>Figure 4. </strong>In our visualization, Apostles are arranged counterclockwise in order of seniority, with the “first” member at the top of the ring. Portraits courtesy of The Church of Jesus Christ of Latter-day Saints.</p>
+</div>
+</div>
+
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="caption-frame">
+<p class="caption"><strong>Figure 5. </strong>If the user swipes his or her finger clockwise, the chart updates to a future date. Swiping counterclockwise moves the chart to a date in the past.</p>
+</div></div>
+
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="caption-frame">
+<p class="caption"><strong>Figure 6. </strong>Sliding the progress bar to the left moves the chart to an earlier date; sliding to the right moves it to a later date. The progress bar’s precision allows the selection of years but not days or months, so by default it jumps to January 1 of the selected year.</p>
+</div></div>
+
+
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="caption-frame">
+<p class="caption"><strong>Figure 7. </strong>The screenshot on the left shows the Apostles on January 23, 1970, when Joseph Fielding Smith was the new President of the Church. Tapping the “forward” button advances the chart to April 9, 1970, the date Boyd K. Packer was ordained an Apostle. This change is reflected by a small picture of Boyd K. Packer appearing at the one-o’clock position on the outer ring.</p>
+</div>
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+</div>
+
+
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="caption-frame">
+<p class="caption"><strong>Figure 8. </strong>Tapping the calendar icon in the app’s toolbar opens a date-selector widget, which allows the user to jump to any date since 1832. In this example, the user has chosen February 3, 2008, the date Thomas S. Monson became President of the Church.</p>
+</div>
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+</div>
+
+
+
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="caption-frame">
+<p class="caption"><strong>Figure 9. </strong>Linear transition when an Apostle moves between the two quorums.</p>
+</div>
+</div>
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="caption-frame">
+<p class="caption"><strong>Figure 11. </strong>Apostles move outward radially when exiting the chart.</p>
+</div>
+</div>
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="caption-frame">
+<p class="caption"><strong>Figure 10. </strong>Angular transition when an Apostle changes seniority within a quorum.</p>
+</div>
+</div>
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="caption-frame">
+<p class="caption"><strong>Figure 12. </strong>Apostles move inward from left or right when entering the chart.</p>
+</div>
+</div>
+
+
+
+<div class="graphic-frame-outer invisible">
+<div class="graphic-frame">
+<img alt="" src=""/>
+</div>
+<div class="caption-frame">
+<p class="caption"><strong>Figure 13. </strong>Applying our visualization scheme to the U.S. Supreme Court. The chief justice occupies the center of the graphic; associate justices in the periphery. Portraits courtesy of supremecourt.gov.</p>
+</div>
+</div>
+
+</body>
+</html>
