@@ -29,9 +29,12 @@ def delete_class(my_soup, my_tag_name, my_class):
 
 
 def remove_line_breaks(string):
-    string = re.sub(r'<\s*br\s*/?\s*>', '<br>', string)  # standardize line breaks
-    string = re.sub(r'(\s<br>)|(<b>\s)', ' ', string)  # delete line breaks with a space on either side
-    string = re.sub(r'<br>', ' ', string)  # delete line breaks with no spaces, and add a space
+    # standardize line breaks
+    string = re.sub(r'<\s*br\s*/?\s*>', '<br>', string)
+    # delete line breaks with a space on either side
+    string = re.sub(r'(\s<br>)|(<b>\s)', ' ', string)
+    # delete line breaks with no spaces, and add a space
+    string = re.sub(r'<br>', ' ', string)
     return string
 
 
@@ -87,7 +90,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         for element in soup.findAll('a', id='_idTextAnchor000'):
             element.replaceWithChildren()
 
-
         # make standardize line breaks
         for header in soup.findAll('h1'):
             string = str(header)
@@ -96,7 +98,8 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             string = re.sub(r'< *br */? *>', '<br>', string)
 
             # move breaks from inside spans to outside spans
-            string = re.sub(r'<span([a-zA-Z0-9"\'= ]*)><br>', '<br><span\1>', string)
+            string = re.sub(
+                r'<span([a-zA-Z0-9"\'= ]*)><br>', '<br><span\1>', string)
             string = re.sub(r'<br></span>', '</span><br>', string)
 
             # remove line breaks from title
@@ -108,22 +111,22 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Subtitles
         # ==> p.subtitle
-        clean_paragraphs(['•subtitle-index-volume-', '•subtitle-index-volume-','•subtitle', 'advertisement-heading_new-title'], None, 'subtitle')
+        clean_paragraphs(['•subtitle-index-volume-', '•subtitle-index-volume-',
+                         '•subtitle', 'advertisement-heading_new-title'], None, 'subtitle')
         for subtitle in soup.findAll('p', class_='subtitle'):
             string = remove_line_breaks(str(subtitle))
             new_subtitle = BeautifulSoup(string, features='html.parser')
             subtitle.replace_with(new_subtitle)
 
-
-
     # Document Title
         # (for document transcriptions)
-        clean_paragraphs(['•dc-title-of-document','•title'], None, 'document-title')
+        clean_paragraphs(['•dc-title-of-document', '•title'],
+                         None, 'document-title')
 
         # Author
         # ==> p.author
-        clean_paragraphs(['advertisement-heading_new-author','•author-w-title', '•book-reviewer', '•author-w-two-line-title',
-                          '•author-w-title---sub ParaOverride-1', '•author-w-title---sub','•author'], None, 'author')
+        clean_paragraphs(['advertisement-heading_new-author', '•author-w-title', '•book-reviewer', '•author-w-two-line-title',
+                          '•author-w-title---sub ParaOverride-1', '•author-w-title---sub', '•author'], None, 'author')
 
         # Author for Book Notices
         # ==> p.author-book-notice
@@ -131,47 +134,54 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Publication Information
         # ==> p.publication-info
-        clean_paragraphs(['•Book-review-title-2nd-line', 'advertisement-heading_pub-info'], None, 'publication-info')
+        clean_paragraphs(['•Book-review-title-2nd-line',
+                         'advertisement-heading_pub-info'], None, 'publication-info')
 
         # Level 1 Headers
         # ==> h2
-        clean_paragraphs(['•subhead--0-', 'Heading-1-Text','nonheading','h2'], 'h2' , None)
+        clean_paragraphs(['•subhead--0-', 'Heading-1-Text',
+                         'nonheading', 'h2'], 'h2', None)
 
         # Level 2 Headers
         # ==> h3
         clean_paragraphs(['•subhead--1-', 'h3'], 'h3', None)
 
         # Level 3 Headers
-        clean_paragraphs(['•subhead--2-','volumes','volume-hanging','subhead2','Headings', 'ordering-fine-print'], 'h4', None)
+        clean_paragraphs(['•subhead--2-', 'volumes', 'volume-hanging',
+                         'subhead2', 'Headings', 'ordering-fine-print'], 'h4', None)
 
         # Default Paragraphs
-        clean_paragraphs(['•1st-paragrph', 'Normal-no-indent', '•brief-notices-no-indent','body-text-no-indent',
-        '•brief-notices-text','comparisons','notict-title','ChronologyStyle','chron-subhead'], 'p', None)
+        clean_paragraphs(['•1st-paragrph', 'Normal-no-indent', '•brief-notices-no-indent', 'body-text-no-indent',
+                          '•brief-notices-text', 'comparisons', 'notict-title', 'ChronologyStyle', 'chron-subhead'], 'p', None)
         clean_paragraphs(['Normal'], 'p', 'indent-1-0')
 
         # 1-0 First Line Indent
-        clean_paragraphs(['•brief-notices-indent', 'inline-subhead','Paragraph-Style-First'], None, 'indent-1-0')
+        clean_paragraphs(['•brief-notices-indent', 'inline-subhead',
+                         'Paragraph-Style-First'], None, 'indent-1-0')
 
-        #1-2 Hanging Indent Begin
+        # 1-2 Hanging Indent Begin
         # (first line indented once, all other lines indented twice)
-        clean_paragraphs(['•10-5-Hanging-Indent-Paragraph'], None,'indent-1-2 begin')
+        clean_paragraphs(['•10-5-Hanging-Indent-Paragraph'],
+                         None, 'indent-1-2 begin')
 
         # 1-2 Hanging Indent
-        clean_paragraphs(['•10-5-Hanging-IndPar-Middle','•10-5-Hanging-interior-para','•Hanging-Indent-Paragraph',
+        clean_paragraphs(['•10-5-Hanging-IndPar-Middle', '•10-5-Hanging-interior-para', '•Hanging-Indent-Paragraph',
                           '•Hanging-Indent-Paragraph--small-', '•Hanging-IndPar-Middle', 'example-lines', 'list-subparagraph'], None,
                          'indent-1-2')
 
         # 1-2 Hanging Indent with Space after paragraph
-        clean_paragraphs(['•10-5-Hanging-IndPar-End', '•10-5-Hanging-IndPar-End-5-5', '•Hanging-IndPar-End','subhanging'], None,
+        clean_paragraphs(['•10-5-Hanging-IndPar-End', '•10-5-Hanging-IndPar-End-5-5', '•Hanging-IndPar-End', 'subhanging'], None,
                          'indent-1-2 end')
 
         # 2-3 Hanging Indent
         # (first line indented twice, all other lines indented three times)
-        clean_paragraphs(['example-lines-extra-space','double-indent'], None, 'indent-2-3')
+        clean_paragraphs(['example-lines-extra-space',
+                         'double-indent'], None, 'indent-2-3')
 
         # 3-4 Hanging Indent
         # (first line indented three times, all other lines indented four times)
-        clean_paragraphs(['example-lines-extra-indent---space'], None, 'indent-3-4')
+        clean_paragraphs(
+            ['example-lines-extra-indent---space'], None, 'indent-3-4')
 
         # 4-5 Hanging Indent
         # (first line indented four times, all other lines indented five times)
@@ -180,15 +190,16 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # 3-3 Paragraph Indent
         clean_paragraphs(['sub-paragraph'], None, 'indent-3-3')
 
-        #Script to make all indent-1-2 class in to an ordered list
-        element = soup.findAll('p',class_='indent-1-2 begin')
+        # Script to make all indent-1-2 class in to an ordered list
+        element = soup.findAll('p', class_='indent-1-2 begin')
         for el in element:
-            siblings = [sibling for sibling in el.next_siblings if type(sibling)!= NavigableString]
+            siblings = [sibling for sibling in el.next_siblings if type(
+                sibling) != NavigableString]
             # list of all next_siblings class
             # li = [s['class']for s in siblings if 'class'in s.attrs]
             # print(li[:3])
             els = [i for i in itertools.takewhile(
-                lambda x: 'class'in x.attrs and 'indent-1-2' in x['class'], siblings)]
+                lambda x: 'class' in x.attrs and 'indent-1-2' in x['class'], siblings)]
             ol = soup.new_tag('ul')
             el.wrap(ol)
             for child in els:
@@ -207,9 +218,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             del element['class']
             element.name = 'blockquote'
 
-
         # Block Quotes with space above paragraph
-        clean_paragraphs(['•quote-begin-no-indent', '•block-quote-begin'], None, 'block-quote begin')
+        clean_paragraphs(
+            ['•quote-begin-no-indent', '•block-quote-begin'], None, 'block-quote begin')
 
         # Script to remove all <p class="block-quote"> to <blockquote>
         for element in soup.findAll('p', class_='block-quote begin'):
@@ -217,7 +228,8 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element.name = 'blockquote'
 
         # Block Quotes with Space after paragraph
-        clean_paragraphs(['•quote-end', '•quote-end--5', '•block-quote-end'], None, 'block-quote end')
+        clean_paragraphs(['•quote-end', '•quote-end--5',
+                         '•block-quote-end'], None, 'block-quote end')
 
         # Script to remove all <p class="block-quote"> to <blockquote>
         for element in soup.findAll('p', class_='block-quote end'):
@@ -234,7 +246,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             del element['class']
             element.name = 'blockquote'
 
-
         # Block Quote with Indent and Space above paragraph
         clean_paragraphs(['•quote-begin-indent'], None,
                          'block-quote block-quote-indent begin')
@@ -247,14 +258,15 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element.name = 'sup'
 
         # Underline
-        clean_span(['underlined','ital-underline'], None, 'underline')
+        clean_span(['underlined', 'ital-underline'], None, 'underline')
         # Script to remove all <span class ="underline" > to <ins>
         for element in soup.findAll('span', class_='underline'):
             del element['class']
             element.name = 'ins'
 
         # Underlined Superscripts
-        clean_span(['underlined-superscript','superscript-underline'], None, 'underline superscript')
+        clean_span(['underlined-superscript', 'superscript-underline'],
+                   None, 'underline superscript')
         # Wrap a strong tag around <span class_='underline superscript'/>
         for element in soup.findAll('span', class_='underline superscript'):
             string = str(element)
@@ -267,9 +279,8 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             del tag['class']
             tag.name = 'sup'
 
-
         # Small Caps
-        for element in soup.findAll('span', class_=['all-small-caps','table-small-caps']):
+        for element in soup.findAll('span', class_=['all-small-caps', 'table-small-caps']):
             string = str(element.string)
             if string is not None and string.isupper():
                 element.unwrap()
@@ -277,7 +288,8 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                 element['class'] = 'small-caps'
 
         # Italics
-        clean_span(['italic', 'Emphasis', 'table-italic', 'tables_table-heads-italic','tabular-figures','TNR-ital','scriptures','link-italic', 'ital', 'CITE'], None, 'italics')
+        clean_span(['italic', 'Emphasis', 'table-italic', 'tables_table-heads-italic',
+                   'tabular-figures', 'TNR-ital', 'scriptures', 'link-italic', 'ital', 'CITE', 'emphasis','table-title-italic'], None, 'italics')
 
         # Script to remove all <span class="italics"> to <em>
         for element in soup.findAll('span', class_='italics'):
@@ -285,7 +297,10 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element.name = 'em'
 
         # Bold
-        clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold', 'semibold', 'table-bold','Times-bold','Bold'], None, 'bold')
+        clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold',
+                   'semibold', 'table-bold', 'Times-bold', 'Bold','tables_h3-table-titles'], None, 'bold')
+        clean_paragraphs(['tables_h3-table-titles'], None, 'bold')
+
 
         # Script to remove all <span class="bold"> to <em>
         for element in soup.findAll('span', class_='bold'):
@@ -293,7 +308,8 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             element.name = 'strong'
 
         # Bold Italics
-        clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal','Minion-Bold-Italic','Minion-bold-italic','Minion-bold-ital','table-bold-ital', 'table-bold-italic','semibold-ital'], None, 'bold italics')
+        clean_span(['bold-italic', 'Minion-Semibold-italic', 'boldItalic', 'boldItal', 'Minion-Bold-Italic', 'Minion-bold-italic',
+                   'Minion-bold-ital', 'table-bold-ital', 'table-bold-italic', 'semibold-ital'], None, 'bold italics')
 
         # Wrap a strong tag around <span class_='bold italics'/>
         for element in soup.findAll('span', class_='bold italics'):
@@ -305,18 +321,17 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             tag = soup.find('span', class_='bold italics')
             del tag['class']
             tag.name = 'em'
-        clean_paragraphs(['bold italics'], None, None)  # remove all bold italics class tags
+        # remove all bold italics class tags
+        clean_paragraphs(['bold italics'], None, None)
 
         # Footnotes Links
-        for element in soup.findAll('a', class_=['_idFootnoteLink _idGenColorInherit','_idEndnoteLink _idGenColorInherit']):
+        for element in soup.findAll('a', class_=['_idFootnoteLink _idGenColorInherit', '_idEndnoteLink _idGenColorInherit']):
             element['class'] = 'footnote-link'
-            #adjust href so anchor tags work on website
+            # adjust href so anchor tags work on website
             holder = str(element['href'])
             seperated = holder.split("#")
             holder = "#" + seperated[1]
             element['href'] = holder
-
-
 
         # Bold Underline
         clean_span(['bold-underline'], None, 'bold underline')
@@ -333,7 +348,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             tag.name = 'ins'
         clean_paragraphs(['bold underline'], None, None)
 
-
     # Bold Strikethrough
         clean_span(['bold-strikethrough'], None, 'bold strikethrough')
         # Wrap a strong tag around <span class_='bold strikethrough'/>
@@ -348,9 +362,9 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             tag.name = 'del'
         clean_paragraphs(['bold strikethrough'], None, None)
 
-
     # Hebrew
-        clean_span(['Hebrew-TNR','hebrew-TNR', 'TNR-Hebrew','TNR-hebrew', 'TNR','hebrew-transliteration-ital'], None, 'hebrew')
+        clean_span(['Hebrew-TNR', 'hebrew-TNR', 'TNR-Hebrew', 'TNR-hebrew',
+                   'TNR', 'hebrew-transliteration-ital'], None, 'hebrew')
 
         # Foreign
         clean_span(['vowel'], None, 'foreign')
@@ -374,18 +388,25 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
     # Author Bio
         # ==> p child of div.author-bio
-        first_bioline = soup.find('p', class_=['•bioline', 'advertisement-heading_pub-info'])  # grab the first p.•bioline tag
+        # grab the first p.•bioline tag
+        first_bioline = soup.find(
+            'p', class_=['•bioline', 'advertisement-heading_pub-info'])
         if first_bioline is not None:  # make sure there was a p.•bioline
             author_bio = soup.new_tag('div')  # create a new div
-            author_bio['class'] = 'author-bio'  # give the div the class .author-bio
-            first_bioline.insert_before(author_bio)  # insert the div.author-bio before the p.•bioline tag
+            # give the div the class .author-bio
+            author_bio['class'] = 'author-bio'
+            # insert the div.author-bio before the p.•bioline tag
+            first_bioline.insert_before(author_bio)
 
-            biolines = soup.findAll('p', class_='•bioline')  # grab all the p.•bioline tags
+            # grab all the p.•bioline tags
+            biolines = soup.findAll('p', class_='•bioline')
             for bioline in biolines:  # loop through them
                 element = bioline.extract()  # extract each tag
-                author_bio.append(element)  # append each tag to the div.author-bio
+                # append each tag to the div.author-bio
+                author_bio.append(element)
 
-            clean_paragraphs(['•bioline'], None, None)  # remove all .•bioline class tags
+            # remove all .•bioline class tags
+            clean_paragraphs(['•bioline'], None, None)
 
         for element in soup.findAll('span', class_='Note-reference'):
             element.unwrap()
@@ -421,14 +442,15 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             # remove p class
             element['class'] = 'footnote-body'
 
-        clean_paragraphs(['•endnotes', '•endnotes-in', '•endnotes-in-2'], None, None)
+        clean_paragraphs(['•endnotes', '•endnotes-in',
+                         '•endnotes-in-2'], None, None)
 
         for element in soup.findAll('a', class_=['_idFootnoteAnchor _idGenColorInherit', '_idEndnoteAnchor _idGenColorInherit']):
             del element['class']
 
-            #adjust href so anchor tags work on website
+            # adjust href so anchor tags work on website
             holder = str(element['href'])
-            seperated = holder.split("#") 
+            seperated = holder.split("#")
             holder = "#" + seperated[1]
             # fix up the broken link for end-notes
             link_tag = holder[1:-9]
@@ -464,7 +486,8 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                                         str(grandparent))
 
             # replace the old elements with the new ones
-            new_grandparent = BeautifulSoup(grandparent_string, features="html.parser")
+            new_grandparent = BeautifulSoup(
+                grandparent_string, features="html.parser")
             grandparent.replace_with(new_grandparent)
 
         # delete any remaining span elements with the return-link class
@@ -532,10 +555,12 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                 for child in element.findAll('p'):
                     child['class'] = 'author-abstract-body'
 
-                author_div = element.findNextSibling('div').findNextSibling('div')
+                author_div = element.findNextSibling(
+                    'div').findNextSibling('div')
                 author_div_class = author_div.get('class')
                 if author_div_class is not None and '_idGenObjectStyleOverride-1' in author_div_class:
-                    author_paragraph = author_div.find('p', class_='sidebar-title')
+                    author_paragraph = author_div.find(
+                        'p', class_='sidebar-title')
                     if author_paragraph is not None:
                         author_paragraph = author_paragraph.extract()
                         author_paragraph['class'] = 'author-abstract-title'
@@ -547,10 +572,10 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                         div.insert_before(author_abstract)
 
         for element in soup.findAll('div', class_='_idGenObjectStyleOverride-5'):
-            element['class']= '_idGenObjectStyleOverride-1'
+            element['class'] = '_idGenObjectStyleOverride-1'
 
         # Tables
-        for element in soup.findAll(['table', 'td', 'tr'], class_=['shaded-table', 'Basic-Table', 'No-Table-Style', 'blank','Table-Section-Heading']):
+        for element in soup.findAll(['table', 'td', 'tr'], class_=['shaded-table', 'Basic-Table', 'No-Table-Style', 'blank', 'Table-Section-Heading']):
             del element['class']
         # Col
         for element in soup.findAll('col'):
@@ -569,16 +594,17 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Table Heads
         for element in soup.findAll('td'):
-            for paragraph in element.findAll('p', class_=['Heading-2', 'table-heads-bold', 'table-heads-italic', 'timeline-table','Basic-Paragraph']):
+            for paragraph in element.findAll('p', class_=['Heading-2', 'table-heads-bold', 'table-heads-italic', 'timeline-table', 'Basic-Paragraph']):
                 paragraph.unwrap()
                 element.name = 'th'
         if re.sub(r'.*/', '', input_filename) == 'a-Welch.html':
             clean_paragraphs(['table-heads-italic'], None, 'italics')
         delete_class(soup, 'p', 'timeline-columns')
-        clean_paragraphs(['table-heads-bold','tables_table-heads-bold'], None, 'bold')
+        clean_paragraphs(
+            ['table-heads-bold', 'tables_table-heads-bold'], None, 'bold')
 
         # Table Rows
-        for element in soup.findAll('tr', class_=['No-Table-Style', '_idGenTableRowColumn-3', '_idGenTableRowColumn-12','Table-Heading-Style']):
+        for element in soup.findAll('tr', class_=['No-Table-Style', '_idGenTableRowColumn-3', '_idGenTableRowColumn-12', 'Table-Heading-Style']):
             del element['class']
 
         # # Table Data (Cell)
@@ -586,7 +612,8 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         #     del element['class']
 
         # Table Text
-        clean_paragraphs(['table-text', '•table-text','tables_table-text','bold','table-text-bullet-list'], None, 'table-text')
+        clean_paragraphs(['table-text', '•table-text', 'tables_table-text',
+                         'bold', 'table-text-bullet-list'], None, 'table-text')
 
         # Book Notices
         delete_class(soup, 'p', 'pub-info')
@@ -604,11 +631,11 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Interview Transcriptions
         clean_paragraphs(['interview1'], None, 'interview-first')
-        clean_paragraphs(['interview2','interview-subsequent'], None, 'interview-additional')
+        clean_paragraphs(['interview2', 'interview-subsequent'],
+                         None, 'interview-additional')
 
         # Dingbats
         clean_paragraphs(['dingbat-line'], None, 'dingbat')
-
 
         # Add on styling for dingbat
         for element in soup.findAll('p', class_="dingbat"):
@@ -634,6 +661,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'div', '_idGenObjectStyleOverride-1')
         unwrap_element(soup, 'div', '_idGenObjectStyleOverride-2')
         unwrap_element(soup, 'div', '_idGenObjectStyleOverride-3')
+
         unwrap_element(soup, 'div', 'Basic-Text-Frame')
         unwrap_element(soup, 'span', 'Annotation-reference')
         unwrap_element(soup, 'div', '_idGenObjectLayout-1')
@@ -643,7 +671,6 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'div', '_idGenObjectAttribute-14')
         unwrap_element(soup, 'div', '_idGenObjectAttribute-18')
         unwrap_element(soup, 'div', '_p1Wrap')
-
 
         unwrap_element(soup, 'span', 'reference-text')
         unwrap_element(soup, 'span', 'apple-converted-space')
@@ -655,15 +682,14 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'Zapf')
         unwrap_element(soup, 'span', 'hit')
         unwrap_element(soup, 'span', 'footnote-reference')
-        unwrap_element(soup,'span','Comment-Reference')
-        unwrap_element(soup,'span','TNR-Greek')
-
+        unwrap_element(soup, 'span', 'Comment-Reference')
+        unwrap_element(soup, 'span', 'TNR-Greek')
+        unwrap_element(soup, 'span', 'None')
 
         delete_element(soup, 'p', '•Side-vertical-title')
         delete_element(soup, 'p', '•Book-Review-Sidebar')
         delete_element(soup, 'div', 'arrow')
         delete_element(soup, 'span', 'Endnote-Reference-no-super')
-
 
         remove_class(soup, 'p', 'ParaOverride-1')
         remove_class(soup, 'p', 'ParaOverride-2')
@@ -725,18 +751,21 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         known_classes += ['begin', 'end', 'dingbat', 'poem-text']
 
         # footnote/appendix classes
-        known_classes += ['footnote-link', 'footnote-body', 'all-footnotes', 'bibliography-entry', 'appendix-title', 'Masthead-Titles', 'Masthead-people']
+        known_classes += ['footnote-link', 'footnote-body', 'all-footnotes',
+                          'bibliography-entry', 'appendix-title', 'Masthead-Titles', 'Masthead-people']
 
         # image-related classes
         known_classes += ['graphic-frame', 'graphic-frame-outer', 'caption', 'caption-frame', 'invisible',
                           'inline-graphic']
 
         # author abstract classes
-        known_classes += ['author-abstract', 'author-abstract-title', 'author-abstract-body']
+        known_classes += ['author-abstract',
+                          'author-abstract-title', 'author-abstract-body']
         # table classes
         known_classes += ['table-head', 'table-text']
         # infobox classes
-        known_classes += ['infobox-title', 'infobox-heading', 'infobox-subheading']
+        known_classes += ['infobox-title',
+                          'infobox-heading', 'infobox-subheading']
 
         # create a set of classes that we do not approve of
         unknown_classes = set()
@@ -754,7 +783,8 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # display warning if there are any unhandled classes
         for name in unknown_classes:
             filename = re.sub(r'.*/', '/', input_filename)
-            print('\tUnrecognized Class Warning: ' + name + ' found in ' + filename)
+            print('\tUnrecognized Class Warning: ' +
+                  name + ' found in ' + filename)
 
         # save output to file
         if len(unknown_classes) == 0:
@@ -763,6 +793,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         else:
             with open(output_filename_partially_clean, 'w', encoding='utf-8') as outfile:
                 outfile.write(str(soup))
+
 
 def clean_batch(raw_files_path):
 
@@ -811,7 +842,7 @@ def clean_batch(raw_files_path):
 
 
 # have the user select a directory
-#tkinter.Tk().withdraw()
+# tkinter.Tk().withdraw()
 filename = askdirectory()
 print('Extracting files from ' + filename)
 
