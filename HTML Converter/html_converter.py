@@ -1,9 +1,9 @@
-from bs4 import BeautifulSoup, NavigableString
-import re
-import os
-import tkinter
-from tkinter.filedialog import askdirectory
 import itertools
+import os
+import re
+from tkinter.filedialog import *
+
+from bs4 import BeautifulSoup, NavigableString
 
 
 def delete_element(my_soup, my_tag_name, my_class):
@@ -298,7 +298,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Bold
         clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold',
-                   'semibold', 'table-bold', 'Times-bold', 'Bold','tables_h3-table-titles'], None, 'bold')
+                   'semibold', 'table-bold', 'Times-bold', 'Bold','tables_h3-table-titles','chinese'], None, 'bold')
         clean_paragraphs(['tables_h3-table-titles'], None, 'bold')
 
 
@@ -501,7 +501,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['tables_table-heads-italic'], None, 'italics')
 
         # Images
-        for element in soup.findAll('div', class_=['graphic-frame', 'graphic']):
+        for element in soup.findAll(re.compile(r'(div|p)'), class_=['graphic-frame', 'graphic']):
             element['class'] = 'graphic-frame'
         for element in soup.findAll('img'):
             del element['class']
