@@ -282,7 +282,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # Script to remove all <span class="italics"> to <em>
         for element in soup.findAll('span', class_='italics'):
             del element['class']
-            element.name = 'em'
+            element.name = 'i'
 
         # Bold
         clean_span(['Minion-Semibold', 'Minion-Semibold-SC', 'Minion-bold', 'semibold', 'table-bold'], None, 'bold')
@@ -304,7 +304,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                 element.replace_with(new_string)
             tag = soup.find('span', class_='bold italics')
             del tag['class']
-            tag.name = 'em'
+            tag.name = 'i'
         clean_paragraphs(['bold italics'], None, None)  # remove all bold italics class tags
 
         # Footnotes Links
