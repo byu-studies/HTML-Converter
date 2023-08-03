@@ -139,24 +139,24 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Level 1 Headers
         # ==> h2
-        clean_paragraphs(['•subhead--0-', 'Heading-1-Text',
+        clean_paragraphs(['•subhead--0-', 'Heading-1-Text', 'part', 'Article-Title',
                          'nonheading', 'h2'], 'h2', None)
 
         # Level 2 Headers
         # ==> h3
-        clean_paragraphs(['•subhead--1-', 'h3'], 'h3', None)
+        clean_paragraphs(['•subhead--1-', 'h3', 'ParaOverride-13', 'Subhead'], 'h3', None)
 
         # Level 3 Headers
-        clean_paragraphs(['•subhead--2-', 'volumes', 'volume-hanging',
+        clean_paragraphs(['•subhead--2-', 'volumes', 'volume-hanging', 'Article-Title--2-line-', 'Article-Title--1-line-',
                          'subhead2', 'Headings', 'ordering-fine-print'], 'h4', None)
 
         # Default Paragraphs
-        clean_paragraphs(['•1st-paragrph', 'Normal-no-indent', '•brief-notices-no-indent', 'body-text-no-indent',
+        clean_paragraphs(['•1st-paragrph', 'Normal-no-indent', '•brief-notices-no-indent', 'body-text-no-indent', 'chiasmus',
                           '•brief-notices-text', 'comparisons', 'notict-title', 'ChronologyStyle', 'chron-subhead'], 'p', None)
         clean_paragraphs(['Normal'], 'p', 'indent-1-0')
 
         # 1-0 First Line Indent
-        clean_paragraphs(['•brief-notices-indent', 'inline-subhead',
+        clean_paragraphs(['•brief-notices-indent', 'inline-subhead', 'footnote-text',
                          'Paragraph-Style-First'], None, 'indent-1-0')
 
         # 1-2 Hanging Indent Begin
@@ -165,7 +165,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
                          None, 'indent-1-2 begin')
 
         # 1-2 Hanging Indent
-        clean_paragraphs(['•10-5-Hanging-IndPar-Middle', '•10-5-Hanging-interior-para', '•Hanging-Indent-Paragraph',
+        clean_paragraphs(['•10-5-Hanging-IndPar-Middle', '•10-5-Hanging-interior-para', '•Hanging-Indent-Paragraph', 'bib1',
                           '•Hanging-Indent-Paragraph--small-', '•Hanging-IndPar-Middle', 'example-lines', 'list-subparagraph'], None,
                          'indent-1-2')
 
@@ -175,7 +175,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # 2-3 Hanging Indent
         # (first line indented twice, all other lines indented three times)
-        clean_paragraphs(['example-lines-extra-space',
+        clean_paragraphs(['example-lines-extra-space', 'bib2',
                          'double-indent'], None, 'indent-2-3')
 
         # 3-4 Hanging Indent
@@ -210,8 +210,8 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         clean_paragraphs(['publication-lines'], None, 'publication-lines')
 
         # Block Quotes
-        clean_paragraphs(['•quote-5-5-no-indent', '•quote-no-indent', '•quote-center', '•block-quote-center',
-                          '•block-quote', '•block-quote-5-5', '•block-quote-end--5'], None, 'block-quote')
+        clean_paragraphs(['•quote-5-5-no-indent', '•quote-no-indent', '•quote-center', '•block-quote-center', 'Block-Quote-Begin', 'Block-Quote-5-8', 'Block-Quote-Center',
+                          '•block-quote', 'Block-Quote-5-5', '•block-quote-5-5', '•block-quote-end--5', 'Block-Quote-End--8', 'Block-Quote-End--5'], None, 'block-quote')
 
         # Script to remove all <p class="block-quote"> to <blockquote>
         for element in soup.findAll('p', class_='block-quote'):
@@ -220,7 +220,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Block Quotes with space above paragraph
         clean_paragraphs(
-            ['•quote-begin-no-indent', '•block-quote-begin'], None, 'block-quote begin')
+            ['•quote-begin-no-indent', 'anecdote', '•block-quote-begin'], None, 'block-quote begin')
 
         # Script to remove all <p class="block-quote"> to <blockquote>
         for element in soup.findAll('p', class_='block-quote begin'):
@@ -390,7 +390,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         # ==> p child of div.author-bio
         # grab the first p.•bioline tag
         first_bioline = soup.find(
-            'p', class_=['•bioline', 'advertisement-heading_pub-info'])
+            'p', class_=['•bioline', '•bioline1', 'advertisement-heading_pub-info'])
         if first_bioline is not None:  # make sure there was a p.•bioline
             author_bio = soup.new_tag('div')  # create a new div
             # give the div the class .author-bio
@@ -399,14 +399,14 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
             first_bioline.insert_before(author_bio)
 
             # grab all the p.•bioline tags
-            biolines = soup.findAll('p', class_='•bioline')
+            biolines = soup.findAll('p', class_=['•bioline', '•bioline1'])
             for bioline in biolines:  # loop through them
                 element = bioline.extract()  # extract each tag
                 # append each tag to the div.author-bio
                 author_bio.append(element)
 
             # remove all .•bioline class tags
-            clean_paragraphs(['•bioline'], None, None)
+            clean_paragraphs(['•bioline', '•bioline1'], None, None)
 
         for element in soup.findAll('span', class_='Note-reference'):
             element.unwrap()
@@ -494,11 +494,11 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         delete_element(soup, 'span', 'return-link')
 
         # Appendix Title
-        clean_paragraphs(['•appendix-title'], None, 'appendix-title')
+        clean_paragraphs(['•appendix-title', '•document-appendix-title'], None, 'appendix-title')
 
         # Bibliography Entries
         clean_paragraphs(['bibliography'], None, 'bibliography-entry')
-        clean_paragraphs(['tables_table-heads-italic'], None, 'italics')
+        clean_paragraphs(['tables_table-heads-italic', 'Intro'], None, 'italics')
 
         # Images
         for element in soup.findAll(re.compile(r'(div|p)'), class_=['graphic-frame', 'graphic']):
@@ -613,7 +613,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
 
         # Table Text
         clean_paragraphs(['table-text', '•table-text', 'tables_table-text',
-                         'bold', 'table-text-bullet-list'], None, 'table-text')
+                         'bold', 'tables_table-bullets', 'table-text-bullet-list'], None, 'table-text')
 
         # Book Notices
         delete_class(soup, 'p', 'pub-info')
@@ -665,6 +665,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'div', 'Basic-Text-Frame')
         unwrap_element(soup, 'span', 'Annotation-reference')
         unwrap_element(soup, 'div', '_idGenObjectLayout-1')
+        unwrap_element(soup, 'div', '_idGenObjectLayout-2')
         unwrap_element(soup, 'div', '_idGenObjectLayout-3')
         unwrap_element(soup, 'div', '_idGenObjectLayout-4')
         unwrap_element(soup, 'div', '_idGenObjectLayout-5')
@@ -685,6 +686,7 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'Comment-Reference')
         unwrap_element(soup, 'span', 'TNR-Greek')
         unwrap_element(soup, 'span', 'None')
+        unwrap_element(soup, 'span', 'Normal')
 
         delete_element(soup, 'p', '•Side-vertical-title')
         delete_element(soup, 'p', '•Book-Review-Sidebar')
@@ -700,6 +702,31 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         remove_class(soup, 'p', 'ParaOverride-7')
         remove_class(soup, 'p', 'ParaOverride-8')
         remove_class(soup, 'p', 'ParaOverride-10')
+        remove_class(soup, 'p', 'ParaOverride-13')
+        remove_class(soup, 'p', 'ParaOverride-15')
+        remove_class(soup, 'p', 'ParaOverride-16')
+        remove_class(soup, 'p', 'ParaOverride-17')
+        remove_class(soup, 'p', 'ParaOverride-18')
+        remove_class(soup, 'p', 'ParaOverride-19')
+        remove_class(soup, 'p', 'ParaOverride-20')
+        remove_class(soup, 'p', 'ParaOverride-21')
+        remove_class(soup, 'p', 'ParaOverride-22')
+        remove_class(soup, 'p', 'ParaOverride-23')
+        remove_class(soup, 'p', 'ParaOverride-29')
+        remove_class(soup, 'p', 'ParaOverride-33')
+        remove_class(soup, 'p', 'ParaOverride-34')
+        remove_class(soup, 'p', 'ParaOverride-35')
+        remove_class(soup, 'p', 'ParaOverride-36')
+        remove_class(soup, 'p', 'ParaOverride-37')
+        remove_class(soup, 'p', 'ParaOverride-38')
+        remove_class(soup, 'p', 'ParaOverride-40')
+        remove_class(soup, 'p', 'ParaOverride-41')
+        remove_class(soup, 'p', 'ParaOverride-42')
+
+        remove_class(soup, 'p', 'Author-Name--1-line-title-')
+        remove_class(soup, 'p', 'Author-Name--2-line-title-')
+        remove_class(soup, 'p', 'Author-Name')
+
         remove_class(soup, 'p', 'Title')
         delete_class(soup, 'li', '•10-5-Hanging-IndPar-End')
         delete_class(soup, 'li', '•10-5-Hanging-Indent-Start')
@@ -719,6 +746,61 @@ def clean_html_file(input_filename, output_filename_clean, output_filename_parti
         unwrap_element(soup, 'span', 'CharOverride-12')
         unwrap_element(soup, 'span', 'CharOverride-13')
         unwrap_element(soup, 'span', 'CharOverride-14')
+        unwrap_element(soup, 'span', 'CharOverride-15')
+        unwrap_element(soup, 'span', 'CharOverride-16')
+        unwrap_element(soup, 'span', 'CharOverride-17')
+        unwrap_element(soup, 'span', 'CharOverride-18')
+        unwrap_element(soup, 'span', 'CharOverride-19')
+        unwrap_element(soup, 'span', 'CharOverride-20')
+        unwrap_element(soup, 'span', 'CharOverride-21')
+        unwrap_element(soup, 'span', 'CharOverride-22')
+        unwrap_element(soup, 'span', 'CharOverride-23')
+        unwrap_element(soup, 'span', 'CharOverride-24')
+        unwrap_element(soup, 'span', 'CharOverride-25')
+        unwrap_element(soup, 'span', 'CharOverride-26')
+        unwrap_element(soup, 'span', 'CharOverride-27')
+        unwrap_element(soup, 'span', 'CharOverride-28')
+        unwrap_element(soup, 'span', 'CharOverride-29')
+        unwrap_element(soup, 'span', 'CharOverride-30')
+        unwrap_element(soup, 'span', 'CharOverride-31')
+        unwrap_element(soup, 'span', 'CharOverride-32')
+        unwrap_element(soup, 'span', 'CharOverride-33')
+        unwrap_element(soup, 'span', 'CharOverride-34')
+        unwrap_element(soup, 'span', 'CharOverride-35')
+        unwrap_element(soup, 'span', 'CharOverride-36')
+        unwrap_element(soup, 'span', 'CharOverride-37')
+        unwrap_element(soup, 'span', 'CharOverride-38')
+        unwrap_element(soup, 'span', 'CharOverride-39')
+        unwrap_element(soup, 'span', 'CharOverride-40')
+        unwrap_element(soup, 'span', 'CharOverride-41')
+        unwrap_element(soup, 'span', 'CharOverride-42')
+        unwrap_element(soup, 'span', 'CharOverride-43')
+        unwrap_element(soup, 'span', 'CharOverride-44')
+        unwrap_element(soup, 'span', 'CharOverride-45')
+        unwrap_element(soup, 'span', 'CharOverride-46')
+        unwrap_element(soup, 'span', 'CharOverride-47')
+        unwrap_element(soup, 'span', 'CharOverride-48')
+        unwrap_element(soup, 'span', 'CharOverride-49')
+        unwrap_element(soup, 'span', 'CharOverride-50')
+        unwrap_element(soup, 'span', 'CharOverride-51')
+        unwrap_element(soup, 'span', 'CharOverride-52')
+        unwrap_element(soup, 'span', 'CharOverride-53')
+        unwrap_element(soup, 'span', 'CharOverride-54')
+        unwrap_element(soup, 'span', 'CharOverride-55')
+        unwrap_element(soup, 'span', 'CharOverride-56')
+        unwrap_element(soup, 'span', 'CharOverride-57')
+        unwrap_element(soup, 'span', 'CharOverride-58')
+        unwrap_element(soup, 'span', 'CharOverride-59')
+        unwrap_element(soup, 'span', 'CharOverride-60')
+        unwrap_element(soup, 'span', 'CharOverride-61')
+        unwrap_element(soup, 'span', 'CharOverride-62')
+        unwrap_element(soup, 'span', 'CharOverride-63')
+        unwrap_element(soup, 'span', 'CharOverride-64')
+        unwrap_element(soup, 'span', 'CharOverride-65')
+        unwrap_element(soup, 'span', 'CharOverride-66')
+
+        unwrap_element(soup, 'span', 'expert-copyright')        
+
 
         for element in soup.findAll('span', class_=""):
             element.unwrap()
